@@ -1,0 +1,262 @@
+<html>
+<head>
+<title>
+  Hello, and welcome to Sales Tracking
+</title>
+<script type='text/javascript' src="javascript/prototype.js"></script>
+<script type='text/javascript' src="javascript/scriptaculous.js"></script>
+<script type='text/javascript' src="javascript/taconite_for_prototype.js"></script>
+<script type="text/javascript">
+
+var automatic_updater;
+var start_it_button = "<input type='button' onclick='automatic();' value='Start It' id='automatic' class='automatic'>";
+var stop_it_button = "<input type='button' onclick='stop_it();' value='Stop It' id='stop_it' class='automatic'>";
+
+  window.onload = function()
+		  {
+		    //$('a_toggle_button').innerHTML = stop_it_button;
+		    automatic();
+		  }
+
+
+  function stop_it()
+  {
+    automatic_updater.stop();
+    Element.hide('waiting');
+    $('a_toggle_button').innerHTML = start_it_button;
+  }
+  function automatic()
+  {
+    //$('a_toggle_button').disabled = true;
+    automatic_updater = new Ajax.PeriodicalUpdater(
+			  { success: 'foo',
+			    failure: 'bar' },
+			  'sales_widget2.php',
+			  {
+			    decay: 1,
+			    frequency: 120,
+			    asynchronous: true,
+			    method: 'get',
+			    parameters: 'show_history=NO',
+			    onLoading: function(request)
+			      {
+				Element.show('waiting');
+			      },
+			    onSuccess: function(request)
+			      {
+				Element.hide('waiting');
+				sales_numbers = request.responseText.split('|');
+				show_sales_numbers(sales_numbers);
+				$('a_toggle_button').innerHTML = stop_it_button;
+				//$('a_toggle_button').disabled = false;
+			      },
+			    onFailure: function(request)
+			      {
+				alert("Stuff DIDN'T Happen, alert the programmers: " + request.responseText);
+			      },
+			    onException: function(request)
+			      {
+				console.log("bah: %s",request.status);
+			      }
+			  });
+  }
+
+  function show_sales_history()
+  {
+    new Ajax.Request('sales_widget2.php',
+      {
+	asynchronous: true,
+	method: 'get',
+	parameters: 'show_history=YES',
+	onLoading: function(request)
+	  {
+	    Element.show('waiting');
+	  },
+	onSuccess: function(request)
+	  {
+	    Element.hide('waiting');
+	    sales_history_numbers = request.responseText.split('|');
+	    show_sales_history_numbers(sales_history_numbers);
+	  },
+	onFailure: function(request)
+	  {
+	    alert("Stuff DIDN'T Happen, alert the programmers: " + request.responseText);
+	  }      });
+  }
+
+  function show_sales_history_numbers(sales_history_numbers)
+  {
+    // sales_history_numbers:
+    //	  [0]: yest_total_sales
+    //	  [1]: yest_total_order_count
+    //	  [2]: yest_total_aff_cost
+    //	  [3]: yest_total_aff_order_count
+    //	  [4]: yest_percent_total_orders
+    //	  [5]: yest_percent_total_sales
+    //	  [6]: lw_total_sales
+    //	  [7]: lw_total_order_count
+    //	  [8]: lw_total_aff_cost
+    //	  [9]: lw_total_aff_order_count
+    //	  [10]: lw_percent_total_orders
+    //	  [11]: lw_percent_total_sales
+    //	  [12]: lm_total_sales
+    //	  [13]: lm_total_order_count
+    //	  [14]: lm_total_aff_cost
+    //	  [15]: lm_total_aff_order_count
+    //	  [16]: lm_percent_total_orders
+    //	  [17]: lm_percent_total_sales
+    $('yest_total_orders').innerHTML = sales_history_numbers[1];
+    $('lw_total_orders').innerHTML = sales_history_numbers[7];
+    $('lm_total_orders').innerHTML = sales_history_numbers[13];
+    $('yest_total_affiliate_orders').innerHTML = sales_history_numbers[3];
+    $('lw_total_affiliate_orders').innerHTML = sales_history_numbers[9];
+    $('lm_total_affiliate_orders').innerHTML = sales_history_numbers[15];
+    $('yest_total_collected').innerHTML = sales_history_numbers[0];
+    $('lw_total_collected').innerHTML = sales_history_numbers[6];
+    $('lm_total_collected').innerHTML = sales_history_numbers[12];
+    $('yest_total_paid_affiliates').innerHTML = sales_history_numbers[2];
+    $('lw_total_paid_affiliates').innerHTML = sales_history_numbers[8];
+    $('lm_total_paid_affiliates').innerHTML = sales_history_numbers[14];
+    $('yest_percent_of_total_orders').innerHTML = "(" + sales_history_numbers[4] + "%)";
+    $('lw_percent_of_total_orders').innerHTML = "(" + sales_history_numbers[10] + "%)";
+    $('lm_percent_of_total_orders').innerHTML = "(" + sales_history_numbers[16] + "%)";
+    $('yest_percent_of_total').innerHTML = "(" + sales_history_numbers[5] + "%)";
+    $('lw_percent_of_total').innerHTML = "(" + sales_history_numbers[11] + "%)";
+    $('lm_percent_of_total').innerHTML = "(" + sales_history_numbers[17] + "%)";
+  }
+
+  function show_sales_numbers(sales_numbers)
+  {
+    // sales_numbers:
+    //	  [0]: time
+    //	  [1]: total_sales
+    //	  [2]: total_order_count
+    //	  [3]: total_aff_cost
+    //	  [4]: total_aff_order_count
+    //	  [5]: percent_total_orders
+    //	  [6]: percent_total_sales
+    $('a_day').innerHTML = "Last Updated " + sales_numbers[0];
+    $('total_orders').innerHTML = sales_numbers[2];
+    $('total_affiliate_orders').innerHTML = sales_numbers[4];
+    $('total_collected').innerHTML = sales_numbers[1];
+    $('total_paid_affiliates').innerHTML = sales_numbers[3];
+    $('percent_of_total_orders').innerHTML = "(" + sales_numbers[5] + "%)";
+    $('percent_of_total').innerHTML = "(" + sales_numbers[6] + "%)";
+  }
+
+</script>
+<style type='text/css'>
+body, td
+{
+  font-family: Lucida Grande, Arial, sans-serif; font-size:14px;
+  scrollbar-face-color:#999999; 
+  scrollbar-arrow-color:#ffffff; 
+  scrollbar-track-color:#ffffff; 
+  scrollbar-shadow-color:#ffffff; 
+  scrollbar-highlight-color:#ffffff;  
+  scrollbar-darkshadow-Color:#ffffff;
+}
+#button_container
+{
+  position:absolute;
+  top:0px;
+  left:10px;
+  width:800;
+  height:22px;
+  background:black;
+  padding: 0px;
+}
+#stuff_container
+{
+  position:absolute;
+  top:22px;
+  left:10px;
+}
+.header_text
+{
+  font-family: Optima, Lucida Grande, serif;
+  font-variant: small-caps;
+  font-weight: bold;
+  font-size: 17;
+  position:absolute;
+  left:4;
+  color:#ffee00;
+}
+.odd_row { background: lightblue; }
+.even_row { background: lightyellow; }
+span.waiting { background: lightblue; }
+span.data {  }
+span.col_header { font-weight: bold; }
+input.automatic { color: purple; }
+
+</style>
+</head>
+<body>
+
+<div id='button_container'>
+  <span id='header_text' class='header_text'>Welcome to Sales Tracking</span>
+</div>
+<div id='stuff_container'>
+  <br />
+  <table border cellpadding="2">
+    <thead>
+      <th></th>
+      <th>Today</th>
+      <th>Yesterday</th>
+      <th>Last Week</th>
+      <th>Last Month</th>
+    </thead> 
+    <tbody>
+      <tr class='even_row'>
+	<td><span class='col_header'> Total Orders: </span></td>
+	  <td><span id='total_orders' class='data'></span></td>
+	  <td><span id='yest_total_orders' class='data'></span></td>
+	  <td><span id='lw_total_orders' class='data'></span></td>
+	  <td><span id='lm_total_orders' class='data'></span></td>
+      </tr>
+      <tr class='odd_row'>
+	<td><span class='col_header'> Total Affiliate Orders: </span></td>
+	  <td><span id='total_affiliate_orders' class='data'></span>
+	    <span id='percent_of_total_orders' class='data'></span></td>
+	  <td><span id='yest_total_affiliate_orders' class='data'></span>
+	    <span id='yest_percent_of_total_orders' class='data'></span></td>
+	  <td><span id='lw_total_affiliate_orders' class='data'></span>
+	    <span id='lw_percent_of_total_orders' class='data'></span></td>
+	  <td><span id='lm_total_affiliate_orders' class='data'></span>
+	    <span id='lm_percent_of_total_orders' class='data'></span></td>
+      </tr>
+      <tr class='even_row'>
+	<td><span class='col_header'> Total Collected: </span></td>
+	  <td><span id='total_collected' class='data'></span></td>
+	  <td><span id='yest_total_collected' class='data'></span></td>
+	  <td><span id='lw_total_collected' class='data'></span></td>
+	  <td><span id='lm_total_collected' class='data'></span></td>
+      </tr>
+      <tr class='odd_row'>
+	<td><span class='col_header'> Total Paid to Affiliates: </span></td>
+	  <td><span id='total_paid_affiliates' class='data'></span>
+	    <span id='percent_of_total' class='data'></span></td>
+	  <td><span id='yest_total_paid_affiliates' class='data'></span>
+	    <span id='yest_percent_of_total' class='data'></span></td>
+	  <td><span id='lw_total_paid_affiliates' class='data'></span>
+	    <span id='lw_percent_of_total' class='data'></span></td>
+	  <td><span id='lm_total_paid_affiliates' class='data'></span>
+	    <span id='lm_percent_of_total' class='data'></span></td>
+      </tr>
+  </tbody>
+  </table>
+  <span id='a_day' class='data'></span>
+  <br />
+  <span id='waiting' class='waiting' style="display:none">Waiting for data...</span>
+  <br />
+  <input type='button' onclick='show_sales_history()' value='Show Sales History'>
+  <div id="a_toggle_button" style="display:inline"></div>
+  <div id='foo' style="display:none"></div>
+  <div id='bar' style="display:none"></div>
+</div>
+
+
+
+
+</body>
+</html>

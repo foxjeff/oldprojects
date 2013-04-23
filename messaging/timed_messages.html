@@ -1,0 +1,378 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" media="all" href="/javascript/calendar2-blue.css" title="Winter" />
+<script type="text/javascript" src="/javascript/calendar2.js"></script>
+<script type="text/javascript" src="/javascript/lang/calendar2-en.js"></script>
+<script type="text/javascript" src="/javascript/calendar2-setup.js"></script>
+<script type='text/javascript' src="/javascript/prototype.js"></script>
+<script type='text/javascript' src="/javascript/scriptaculous.js"></script>
+<script type="text/javascript">
+  var message_text_out;
+  var tab_id_out;
+  var priority_out;
+  var splat_duration_out;
+  var start_date_out;
+  var repetition_interval_out;
+  var max_repetitions_out;
+  var my_calendar;
+  var current_showing;
+  var previous_showing;
+  var next_showing;
+  var tab_ids = [{'value':0, 'description':'All Tabs'},
+		 {'value':1, 'description':'PokerPages Only'},
+		 {'value':2, 'description':'PokerSchoolOnline Only'},
+		 {'value':3, 'description':'BugsysClub Only'}
+		];
+  var priorities = [{'value':1, 'description':'Everywhere'},
+		    {'value':2, 'description':'Chat and Unblocked and Lobby'},
+		    {'value':1, 'description':'Chat Only'}
+		   ];
+  var wizard = [{'div_id': 'getting_started', 'previous': 'none', 'next': 'enter_text'},
+		{'div_id': 'enter_text', 'previous': 'getting_started', 'next': 'get_tab_id'},
+		{'div_id': 'get_tab_id', 'previous': 'enter_text', 'next': 'get_priority'},
+		{'div_id': 'get_priority', 'previous': 'get_tab_id', 'next': 'get_splat_duration'},
+		{'div_id': 'get_splat_duration', 'previous': 'get_priority', 'next': 'get_start_date'},
+		{'div_id': 'get_start_date', 'previous': 'get_splat_duration', 'next': 'get_repetition_inteval'},
+		{'div_id': 'get_repetition_inteval', 'previous': 'get_start_date', 'next': 'get_max_repetitions'},
+		{'div_id': 'get_max_repetitions', 'previous': 'get_repetition_inteval', 'next': 'none'}
+		];
+
+  window.onload = function()
+		  {
+		    message_text_out = 'Type your message above.'
+		    $('message_text_out').innerHTML = message_text_out;
+		    tab_id_out = 1;
+		    $('tab_id_out').innerHTML = $H(tab_ids[tab_id_out]).description;
+		    priority_out = 3;
+		    $('priority_out').innerHTML = $H(priorities[priority_out - 1]).description;
+		    splat_duration_out = '20';
+		    $('splat_duration_out').innerHTML = splat_duration_out;
+		    start_date_out = new Date();
+		    start_date_out = start_date_out.toLocaleString();
+		    $('start_date_out').innerHTML = start_date_out;
+		    $('start_date').value = start_date_out;
+		    repetition_interval_out = '3 minutes';
+		    $('repetition_interval_out').innerHTML = repetition_interval_out;
+		    $('repetition_interval').value = 3;
+		    max_repetitions_out = '5';
+		    $('max_repetitions_out').innerHTML = max_repetitions_out;
+		    $('max_repetitions').value = max_repetitions_out;
+		    Field.activate('message_text');
+  //new Insertion.Bottom('stuff_container',$H(tab_ids[0]).description + '<br />');
+  //new Insertion.Bottom('stuff_container','stuff goes here' + '<br />');
+		    //$A(priorities).each(function(div)
+			//{
+			  //new Insertion.Bottom('stuff_container',$H(div).toQueryString() + '<br />');
+			  ////alert($H(div).inspect());
+			//}
+		      //);
+		  }
+
+  function set_next(div_id)
+  {
+    
+  }
+  function go_next()
+  {
+
+  }
+  function get_started()
+  {
+    current_showing = 'enter_text';
+    previous_showing = 'getting_started';
+    next_showing = 'get_tab_id';
+    Element.hide('getting_started');
+    //Element.show('enter_text');
+    Field.activate('message_text');
+  }
+  function capture_message_text()
+  {
+    //Element.hide('enter_text');
+    message_text_out = $('message_text').value;
+    $('message_text_out').innerHTML = message_text_out;
+    //Element.show('get_tab_id');
+  }
+  function capture_tab_id(o)
+  {
+    //Element.hide('get_tab_id');
+    tab_id_out = o.value;
+    $('tab_id_out').innerHTML = $H(tab_ids[tab_id_out]).description;
+    //Element.show('get_priority');
+  }
+  function capture_priority(o)
+  {
+    //Element.hide('get_priority');
+    priority_out = o.value;
+    $('priority_out').innerHTML = $H(priorities[priority_out - 1]).description;
+    //Element.show('get_splat_duration');
+    Field.activate('splat_duration');
+  }
+  var is_calendar_created = false;
+  function capture_splat_duration()
+  {
+    //Element.hide('get_splat_duration');
+    splat_duration_out = $('splat_duration').value;
+    $('splat_duration_out').innerHTML = splat_duration_out;
+    //Element.show('get_start_date');
+    //if (!is_calendar_created)
+      //create_calendar();
+    Field.activate('start_date');
+  }
+  function capture_start_date()
+  {
+    //Element.hide('get_start_date');
+    start_date_out = $('start_date').value;
+    $('start_date_out').innerHTML = start_date_out;
+    //Element.show('get_repetition_inteval');
+    Field.activate('repetition_interval');
+  }
+  function capture_repetition_interval()
+  {
+    //validate
+    v = $('repetition_interval').value;
+    u = $('repetition_interval_unit').value;
+    repetition_interval_out = v + ' ' + u;
+    $('repetition_interval_out').innerHTML = repetition_interval_out;
+    //Element.hide('get_repetition_inteval');
+    //Element.show('get_max_repetitions');
+    Field.activate('max_repetitions');
+  }
+  function capture_max_repetitions()
+  {
+    //Element.hide('get_max_repetitions');
+    max_repetitions_out = $('max_repetitions').value;
+    $('max_repetitions_out').innerHTML = max_repetitions_out;
+    //insert_timed_message();
+  }
+  function insert_timed_message()
+  {
+    if (message_text_out.indexOf('Type your message above.') == 0) {alert('type a message please'); return;}
+    $('message_text_out').innerHTML = message_text_out;
+    $('tab_id_out').innerHTML = $H(tab_ids[tab_id_out]).description;
+    $('priority_out').innerHTML = $H(priorities[priority_out - 1]).description;
+    $('splat_duration_out').innerHTML = splat_duration_out;
+    $('start_date_out').innerHTML = start_date_out;
+    $('repetition_interval_out').innerHTML = repetition_interval_out;
+    $('max_repetitions_out').innerHTML = max_repetitions_out;
+    Element.show('message_stuff');
+    new Ajax.Request('/bugsy/admin/messaging/insert-timed-message.php',
+      {
+	asynchronous: true,
+	method: 'post',
+	parameters:   'text=' + message_text_out
+		    + '&tab_id=' + tab_id_out
+		    + '&priority=' + priority_out
+		    + '&splat_duration=' + splat_duration_out
+		    + '&start_date=' + start_date_out
+		    + '&repetition_interval=' + repetition_interval_out
+		    + '&max_repetitions=' + max_repetitions_out,
+	onSuccess: function(request)
+	  {
+	    alert('New Timed Message is Ready');
+	  },
+	onFailure: function(request)
+	  {
+	    alert('checkForNewMessages failed: ' + request.responseText);
+	  }
+      });
+  }
+  // date functions:
+  function is_before_today(date)
+  {
+    return_value = false;
+    now = new Date();
+    if (date.getFullYear() <= now.getFullYear())
+      if (date.getMonth() <= now.getMonth())
+	if (date.getDate() < now.getDate())
+	  return_value = true;
+    return return_value;
+  }
+  function date_selected(calendar, formatted_date)
+  {
+    if (!is_before_today(calendar.date))
+      document.getElementById('start_date').value = formatted_date;
+    else
+      { //force back to today
+	calendar.setDate(new Date());
+	document.getElementById('start_date').value = calendar.date.print(calendar.dateFormat);
+      }
+    capture_start_date();
+  }
+  function disable_dates(date)
+  {
+    return is_before_today(date);
+  }
+  function create_calendar()
+  {
+    //my_calendar = 
+    is_calendar_created = true;
+  }
+</script>
+<style type='text/css'>
+body, td
+{
+  font-family: Lucida Grande, Arial, sans-serif; font-size:14px;
+  scrollbar-face-color:#999999; 
+  scrollbar-arrow-color:#ffffff; 
+  scrollbar-track-color:#ffffff; 
+  scrollbar-shadow-color:#ffffff; 
+  scrollbar-highlight-color:#ffffff;  
+  scrollbar-darkshadow-Color:#ffffff;
+}
+#button_container
+{
+  position:absolute;
+  top:0px;
+  left:10px;
+  width:800;
+  height:22px;
+  background:black;
+  padding: 0px;
+}
+#stuff_container
+{
+  position:absolute;
+  top:22px;
+  left:10px;
+}
+#calendar_container
+{
+  float: left;
+  margin-left: 1em;
+  margin-bottom: 1em;
+}
+.header_text
+{
+  font-family: Optima, Lucida Grande, serif;
+  font-variant: small-caps;
+  font-weight: bold;
+  font-size: 17;
+  position:absolute;
+  left:4;
+  color:#ffee00;
+}
+.message_labels { width:83px; float:left; }
+.message_stuff { width:223px; float:left; }
+.odd_row { background: lightblue; }
+.even_row { background: lightyellow; }
+.message_text { font-style: normal; }
+span.next { color:blue; cursor: pointer; text-decoration: underline;}
+span.next:hover { color:red; cursor: pointer; }
+span.next_visited { color:purple; cursor: pointer; }
+
+</style>
+</head>
+<body>
+<!--<form id='timed_messages_form' name='timed_messages_form' method='POST' action='javascript:;'> -->
+<div id='button_container'>
+  <span id='header_text' class='header_text'>Welcome to Timed Messages</span>
+</div>
+<div id='stuff_container'>
+  <div id='question_area' class='question'>
+<!--    <div id='getting_started'>If you are ready to create a new Timed Message click: 
+      <a id='clickhere' href='#' onclick='get_started()'>Get Started</a>
+    </div>
+-->
+    <div id='enter_text' style='display:inline'>
+      What is your message?
+      <input type='text' id='message_text' name='message_text' value='' size='60' onchange='capture_message_text()'>
+	Thank you.  
+	<br />
+    </div>
+    <br />
+    <div id='get_tab_id' style='display:inline'>
+      On what TAB do want this message displayed:&nbsp&nbsp
+      <input type='radio' id='tab_id_radio_all' name='tab_id_radios' value='0' onclick='capture_tab_id(this)'>All Tabs
+      <input type='radio' id='tab_id_radio_pp' name='tab_id_radios' value='1' onclick='capture_tab_id(this)' checked>PokerPages
+      <input type='radio' id='tab_id_radio_pso' name='tab_id_radios' value='2' onclick='capture_tab_id(this)'>PokerSchoolOnline
+      <input type='radio' id='tab_id_radio_bc' name='tab_id_radios' value='3' onclick='capture_tab_id(this)'>BugsysClub
+      <br />
+    </div>
+    <br />
+    <div id='get_priority' style='display:inline'>
+      Thanks.  now, what is the Priority for this message?&nbsp&nbsp
+      <input type='radio' id='priority_most' name='priority_radios' value='1' onclick='capture_priority(this)'>Everywhere
+      <input type='radio' id='priority_imp' name='priority_radios' value='2' onclick='capture_priority(this)'>Chat and Unblocked and Lobby
+      <input type='radio' id='priority_soso' name='priority_radios' value='3' onclick='capture_priority(this)' checked>Chat Only
+      <br />
+    </div>
+    <br />
+    <div id='get_splat_duration' style='display:inline'>
+      Okay, for how many seconds should this message be displayed?&nbsp&nbsp
+      <select id='splat_duration' name='splat_duration' onchange='capture_splat_duration()'>
+	<option value='20'>20 seconds</option>
+	<option value='10'>10 seconds</option>
+	<option value='25'>25 seconds</option>
+	<option value='30'>30 seconds</option>
+      </select>
+      <br />
+      <!--<span id='next2' class='next' onclick='capture_splat_duration()'>Next</span> -->
+    </div>
+    <br />
+    <div id='get_start_date' style='display:inline'>
+      Well done, now, on what date do you want this message to begin displaying:<br />
+      <input type='text' id='start_date' name='start_date' size='25' maxlength='40' readonly onchange='capture_start_date()'>
+      <span id='date_button' class='next' >Select A Date</span>
+      <br />
+    </div>
+    <script>
+    Calendar.setup
+    (
+      {
+	inputField      : 'start_date',
+	button		: 'date_button',
+	onSelect	: date_selected,
+	dateStatusFunc  : disable_dates,
+	showOthers      : true,
+	weekNumbers     : false,
+	showsTime	: true,
+	timeFormat      : 12,
+	range		: [2006,2007],
+	ifFormat        : '%a, %b %e, %Y @%I:%M %p'
+      }
+    );
+    </script>
+    <br />
+    <div id='get_repetition_inteval' style='display:inline'>
+      Great, we're almost done.  How often do you want this message to display?<br />
+      Every:  <input type='text' id='repetition_interval' name='repetition_interval' size='5' maxlength='5' onblur='capture_repetition_interval()'>
+      <select id='repetition_interval_unit' name='repetition_interval_unit' onchange='capture_repetition_interval()'>
+	<option value='minutes'>minutes</option>
+	<option value='hours'>hours</option>
+	<option value='days'>days</option>
+	<option value='weeks'>weeks</option>
+      </select>
+      <!-- <span id='next1' class='next' onclick='capture_repetition_interval()'>Next</span> -->
+      <br />
+    </div>
+    <br />
+    <div id='get_max_repetitions' style='display:inline'>
+      Finally, how many times should this message repeat?   
+      <input type='text' id='max_repetitions' name='max_repetitions' size='5' maxlength='5' onblur='capture_max_repetitions()'>  times.
+    </div>
+  </div>
+  <br />
+  <div id='message_labels' class='message_labels' style='display:inline'>
+    <div class='odd_row'>Mesage:  </div>
+    <div class='even_row'>On Tab:  </div>
+    <div class='odd_row'>Priority:</div>
+    <div class='even_row'>Duration:</div>
+    <div class='odd_row'>Starting:</div>
+    <div class='even_row'>Interval:</div>
+    <div class='odd_row'>Repeat #:</div>
+  </div>
+  <div id='message_stuff' class='message_stuff'>
+    <div id='message_text_out' class='odd_row message_text'></div>
+    <div id='tab_id_out' class='even_row'></div>
+    <div id='priority_out' class='odd_row'></div>
+    <div id='splat_duration_out' class='even_row'></div>
+    <div id='start_date_out' class='odd_row'></div>
+    <div id='repetition_interval_out' class='even_row'></div>
+    <div id='max_repetitions_out' class='odd_row'></div>
+  </div>
+  <div style="clear:both;"></div>
+    <br />
+    <span id='next' class='next' onclick='insert_timed_message()'>Insert Timed Message</span>
+</div>
+</body>
+</html>
