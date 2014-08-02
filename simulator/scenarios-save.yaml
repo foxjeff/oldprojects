@@ -1,0 +1,30 @@
+---
+- !ruby/object:route
+      node_array: 
+                - :TVM
+                - :KLM
+                - :KYM
+                - :ALP
+                - :EKM
+---
+routes:
+      - 1: [:ALP, :KYM]
+      - 2: [:KLM, :KYM]
+---
+edges:
+        - 1: 
+            - :TVM
+            - :KLM
+            - :duration: 3
+        - 2:
+            - :KLM
+            - :KYN
+            - :duration: 3
+        - 3:
+            - :KYN
+            - :ALP
+            - :duration: 3
+        - 4:
+            - :ALP
+            - :EKM
+            - :duration: 3

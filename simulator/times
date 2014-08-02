@@ -1,0 +1,125 @@
+TCF of 1
+[Sun Oct 22 12:35:58 IST 2006, {"vehicle"=>"V002", "evt"=>"arrival", "station"=>"T003"}]
+[Sun Oct 22 12:46:07 IST 2006, {"vehicle"=>"V002", "evt"=>"departure", "station"=>"T003"}]
+[Sun Oct 22 12:50:31 IST 2006, {"vehicle"=>"V001", "evt"=>"arrival", "station"=>"T003"}]
+[Sun Oct 22 13:00:59 IST 2006, {"vehicle"=>"V001", "evt"=>"departure", "station"=>"T003"}]
+[Sun Oct 22 13:37:24 IST 2006, {"vehicle"=>"V002", "evt"=>"arrival", "station"=>"T004"}]
+[Sun Oct 22 13:53:29 IST 2006, {"vehicle"=>"V001", "evt"=>"arrival", "station"=>"T004"}]
+[Sun Oct 22 13:59:21 IST 2006, {"vehicle"=>"V002", "evt"=>"departure", "station"=>"T004"}]
+[Sun Oct 22 14:15:46 IST 2006, {"vehicle"=>"V001", "evt"=>"departure", "station"=>"T004"}]
+
+TCF of 15
+[Sun Oct 22 12:39:18 IST 2006, {"vehicle"=>"V002", "evt"=>"arrival", "station"=>"T003"}]
+[Sun Oct 22 12:39:58 IST 2006, {"vehicle"=>"V002", "evt"=>"departure", "station"=>"T003"}]
+[Sun Oct 22 12:40:12 IST 2006, {"vehicle"=>"V001", "evt"=>"arrival", "station"=>"T003"}]
+[Sun Oct 22 12:40:51 IST 2006, {"vehicle"=>"V001", "evt"=>"departure", "station"=>"T003"}]
+[Sun Oct 22 12:43:21 IST 2006, {"vehicle"=>"V002", "evt"=>"arrival", "station"=>"T004"}]
+[Sun Oct 22 12:44:13 IST 2006, {"vehicle"=>"V001", "evt"=>"arrival", "station"=>"T004"}]
+[Sun Oct 22 12:44:47 IST 2006, {"vehicle"=>"V002", "evt"=>"departure", "station"=>"T004"}]
+[Sun Oct 22 12:45:38 IST 2006, {"vehicle"=>"V001", "evt"=>"departure", "station"=>"T004"}]
+- !arl.amrita.edu,2006/route
+  name: KYM to ALP
+  nodes:
+            -
+              seq:  1
+              name: KYM
+              tt:   0
+              code: T003
+            -
+              seq:  2
+              name: ALP
+              tt:   50
+              code: T004
+  vehicles:
+            -
+              code: V002
+              lic:  KL9-3041
+              tod:  10
+            -
+              code: V001
+              lic:  KL8-5692
+              tod:  25
+
+- !arl.amrita.edu,2006/route
+  name: TVM to ALP
+  nodes:
+            -
+              seq:  1
+              name: TVM
+              tt:   0
+              code: T001
+            -
+              seq:  2
+              name: KLM
+              tt:   90
+              code: T002
+            -
+              seq:  3
+              name: KYM
+              tt:   55
+              code: T003
+            -
+              seq:  4
+              name: ALP
+              tt:   50
+              code: T004
+  vehicles:
+            -
+              code: V003
+              lic:  KL3-5395
+              tod:  10
+            -
+              code: V004
+              lic:  KL2-9448
+              tod:  25
+
+TCF of 1
+[Sun Oct 22 12:33:24 IST 2006, {"vehicle"=>"V003", "evt"=>"arrival", "station"=>"T001"}]
+[Sun Oct 22 12:34:33 IST 2006, {"vehicle"=>"V002", "evt"=>"arrival", "station"=>"T003"}]
+[Sun Oct 22 12:43:36 IST 2006, {"vehicle"=>"V003", "evt"=>"departure", "station"=>"T001"}]
+[Sun Oct 22 12:43:46 IST 2006, {"vehicle"=>"V002", "evt"=>"departure", "station"=>"T003"}]
+[Sun Oct 22 12:49:19 IST 2006, {"vehicle"=>"V004", "evt"=>"arrival", "station"=>"T001"}]
+[Sun Oct 22 12:49:41 IST 2006, {"vehicle"=>"V001", "evt"=>"arrival", "station"=>"T003"}]
+[Sun Oct 22 12:57:37 IST 2006, {"vehicle"=>"V004", "evt"=>"departure", "station"=>"T001"}]
+[Sun Oct 22 12:58:19 IST 2006, {"vehicle"=>"V001", "evt"=>"departure", "station"=>"T003"}]
+[Sun Oct 22 13:35:13 IST 2006, {"vehicle"=>"V002", "evt"=>"arrival", "station"=>"T004"}]
+[Sun Oct 22 13:50:07 IST 2006, {"vehicle"=>"V001", "evt"=>"arrival", "station"=>"T004"}]
+[Sun Oct 22 13:57:35 IST 2006, {"vehicle"=>"V002", "evt"=>"departure", "station"=>"T004"}]
+[Sun Oct 22 14:10:39 IST 2006, {"vehicle"=>"V001", "evt"=>"departure", "station"=>"T004"}]
+[Sun Oct 22 14:15:59 IST 2006, {"vehicle"=>"V003", "evt"=>"arrival", "station"=>"T002"}]
+[Sun Oct 22 14:27:43 IST 2006, {"vehicle"=>"V004", "evt"=>"arrival", "station"=>"T002"}]
+[Sun Oct 22 14:37:24 IST 2006, {"vehicle"=>"V003", "evt"=>"departure", "station"=>"T002"}]
+[Sun Oct 22 14:50:40 IST 2006, {"vehicle"=>"V004", "evt"=>"departure", "station"=>"T002"}]
+[Sun Oct 22 15:33:41 IST 2006, {"vehicle"=>"V003", "evt"=>"arrival", "station"=>"T003"}]
+[Sun Oct 22 15:48:17 IST 2006, {"vehicle"=>"V004", "evt"=>"arrival", "station"=>"T003"}]
+[Sun Oct 22 15:55:44 IST 2006, {"vehicle"=>"V003", "evt"=>"departure", "station"=>"T003"}]
+[Sun Oct 22 16:10:58 IST 2006, {"vehicle"=>"V004", "evt"=>"departure", "station"=>"T003"}]
+[Sun Oct 22 16:46:31 IST 2006, {"vehicle"=>"V003", "evt"=>"arrival", "station"=>"T004"}]
+[Sun Oct 22 17:02:30 IST 2006, {"vehicle"=>"V004", "evt"=>"arrival", "station"=>"T004"}]
+[Sun Oct 22 17:08:33 IST 2006, {"vehicle"=>"V003", "evt"=>"departure", "station"=>"T004"}]
+[Sun Oct 22 17:22:50 IST 2006, {"vehicle"=>"V004", "evt"=>"departure", "station"=>"T004"}]
+TCF of 15
+[Sun Oct 22 12:27:44 IST 2006, {"vehicle"=>"V003", "evt"=>"arrival", "station"=>"T001"}]
+[Sun Oct 22 12:27:49 IST 2006, {"vehicle"=>"V002", "evt"=>"arrival", "station"=>"T003"}]
+[Sun Oct 22 12:28:23 IST 2006, {"vehicle"=>"V002", "evt"=>"departure", "station"=>"T003"}]
+[Sun Oct 22 12:28:26 IST 2006, {"vehicle"=>"V003", "evt"=>"departure", "station"=>"T001"}]
+[Sun Oct 22 12:28:44 IST 2006, {"vehicle"=>"V001", "evt"=>"arrival", "station"=>"T003"}]
+[Sun Oct 22 12:28:49 IST 2006, {"vehicle"=>"V004", "evt"=>"arrival", "station"=>"T001"}]
+[Sun Oct 22 12:29:20 IST 2006, {"vehicle"=>"V004", "evt"=>"departure", "station"=>"T001"}]
+[Sun Oct 22 12:29:21 IST 2006, {"vehicle"=>"V001", "evt"=>"departure", "station"=>"T003"}]
+[Sun Oct 22 12:31:48 IST 2006, {"vehicle"=>"V002", "evt"=>"arrival", "station"=>"T004"}]
+[Sun Oct 22 12:32:47 IST 2006, {"vehicle"=>"V001", "evt"=>"arrival", "station"=>"T004"}]
+[Sun Oct 22 12:33:11 IST 2006, {"vehicle"=>"V002", "evt"=>"departure", "station"=>"T004"}]
+[Sun Oct 22 12:34:10 IST 2006, {"vehicle"=>"V001", "evt"=>"departure", "station"=>"T004"}]
+[Sun Oct 22 12:34:33 IST 2006, {"vehicle"=>"V003", "evt"=>"arrival", "station"=>"T002"}]
+[Sun Oct 22 12:35:27 IST 2006, {"vehicle"=>"V004", "evt"=>"arrival", "station"=>"T002"}]
+[Sun Oct 22 12:35:53 IST 2006, {"vehicle"=>"V003", "evt"=>"departure", "station"=>"T002"}]
+[Sun Oct 22 12:36:50 IST 2006, {"vehicle"=>"V004", "evt"=>"departure", "station"=>"T002"}]
+[Sun Oct 22 12:39:40 IST 2006, {"vehicle"=>"V003", "evt"=>"arrival", "station"=>"T003"}]
+[Sun Oct 22 12:40:41 IST 2006, {"vehicle"=>"V004", "evt"=>"arrival", "station"=>"T003"}]
+[Sun Oct 22 12:41:04 IST 2006, {"vehicle"=>"V003", "evt"=>"departure", "station"=>"T003"}]
+[Sun Oct 22 12:42:12 IST 2006, {"vehicle"=>"V004", "evt"=>"departure", "station"=>"T003"}]
+[Sun Oct 22 12:44:32 IST 2006, {"vehicle"=>"V003", "evt"=>"arrival", "station"=>"T004"}]
+[Sun Oct 22 12:45:40 IST 2006, {"vehicle"=>"V004", "evt"=>"arrival", "station"=>"T004"}]
+[Sun Oct 22 12:45:58 IST 2006, {"vehicle"=>"V003", "evt"=>"departure", "station"=>"T004"}]
+[Sun Oct 22 12:47:03 IST 2006, {"vehicle"=>"V004", "evt"=>"departure", "station"=>"T004"}]

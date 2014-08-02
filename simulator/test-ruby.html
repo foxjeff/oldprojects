@@ -1,0 +1,44 @@
+  <html>
+  <head>
+  
+  <script type='text/javascript' src="../javascript/prototype.js"></script>
+  <script type='text/javascript' src="../javascript/scriptaculous.js"></script>
+  <script type='text/javascript' src="../javascript/simpledebug.js"></script>
+  <script type="text/javascript">
+  function make_stuff_happen()
+  {
+    new Ajax.Request('test-image-get.php',
+        {
+          asynchronous: true,
+          method: 'get',
+          onLoading: function(request)
+            {
+          //    Element.show('waiting');
+              console.log('waiting is: %o', $('waiting'));
+            },
+          onSuccess: function(request)
+            {
+              alert('Stuff Happened: '+ request.responseText);
+           //   Element.hide('waiting');
+            },
+          onFailure: function(request)
+            {
+              alert("Stuff DIDN'T Happen, alert the programmers: " + request.responseText)
+;
+            },
+          onException: function(request)
+            {
+              alert("Stuff really DIDN'T Happen, alert the programmers: " + request.status
+);
+            }
+        });
+    }
+    </script>
+  </head>
+
+  <body>
+    <h1> boo </h1>
+      <input type='button' onclick='make_stuff_happen()' value='Make Stuff Happen'>
+  <div id='waiting'></div>
+  </body>
+  </html>

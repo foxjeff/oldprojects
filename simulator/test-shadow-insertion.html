@@ -1,0 +1,66 @@
+<html>
+	<head>
+		<script type="text/javascript" src="javascript/prototype.js"></script>
+		<script type="text/javascript" src="javascript/scriptaculous.js"></script>
+		<script type="text/javascript">
+			function timeplease()
+			{
+				new Date();
+			}
+			</script>
+		<style>
+		.p-shadow {
+			width: 90%;
+			float:left;
+			background: url(shadowAlpha.png) no-repeat bottom right !important;
+			background: url(shadow.gif) no-repeat bottom right;
+			margin: 10px 0 0 10px !important;
+			margin: 10px 0 0 5px;
+			}
+
+		.p-shadow div {
+			background: none !important;
+			background: url(shadow2.gif) no-repeat left top;
+			padding: 0 !important;
+			padding: 0 6px 6px 0;
+			}
+
+		.p-shadow p {
+			color: #777;
+			background-color: #fff;
+			font: italic 1em georgia, serif;
+			border: 1px solid #a9a9a9;
+			padding: 4px;
+			margin: -6px 6px 6px -6px !important;
+			margin: 0;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="p-shadow">
+			<div>
+				<p>The rain in Spain ...</p>
+			</div>
+		</div>
+		<br />
+		<br />
+		<p>
+			 <!--<a href="#" onclick="new Insertion.Bottom('mylist', '<li>Yet another list item!</li>'); return false;">-->
+					<!--Add another list item!-->
+			 <!--</a>-->
+			 <a href="#" onclick="new Insertion.Bottom('ta', 'Yet another list item!\n'); return false;">
+			 Add another list item! -->
+			 </a>
+			 <a href="#" onclick="new Insertion.Bottom('ta', 'Yada yada yada'); new Insertion.Bottom('ta', new Date()+'\n'); $('ta').scrollTop = $('ta').scrollHeight; return false;">
+			 Or another
+			 </a>
+		</p>
+
+		<textarea id="ta" rows=10 cols=60></textarea>
+		<ul id="mylist">
+			 <li>a list item.</li>
+			 <li>another list item.</li>
+		</ul>
+
+	</body>
+</html>

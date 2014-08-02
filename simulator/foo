@@ -1,0 +1,79 @@
+== Info: About to connect() to 10.1.253.1 port 80
+== Info:   Trying 10.1.253.1... == Info: connected
+== Info: Connected to 10.1.253.1 (10.1.253.1) port 80
+== Info: Server auth using Basic with user 'admin'
+=> Send header, 338 bytes (0x152)
+0000: POST /privacy.htm HTTP/1.1
+001c: Authorization: Basic YWRtaW46YW1tYWFtbWE=
+0047: User-Agent: curl/7.15.3 (i686-apple-darwin8.7.1) libcurl/7.15.3 
+0087: OpenSSL/0.9.8b zlib/1.2.3
+00a2: Host: 10.1.253.1
+00b4: Accept: */*
+00c1: Content-Length: 74
+00d5: Content-Type: application/x-www-form-urlencoded
+0106: 
+0108: privacy=privnew.htm&acl_MacAddr=00:0C:41:14:C8:75&acl_PermitIdx=
+0148: 1&acl_Key=
+<= Recv header, 17 bytes (0x11)
+0000: HTTP/1.1 200 OK
+<= Recv header, 25 bytes (0x19)
+0000: Server: Rapid Logic/1.1
+<= Recv header, 19 bytes (0x13)
+0000: MIME-version: 1.0
+<= Recv header, 36 bytes (0x24)
+0000: Date: Thu Jan  1 14:39:02 1970 GMT
+<= Recv header, 25 bytes (0x19)
+0000: Content-Type: text/html
+<= Recv header, 28 bytes (0x1c)
+0000: Transfer-Encoding: chunked
+<= Recv data, 1305 bytes (0x519)
+0000: <HTML><HEAD>
+000e: <SCRIPT language=JavaScript>
+002c: function goback () {
+0042:   document.location="security.htm";
+0067: }
+006a: // End of Function validate()
+0089: </script>
+0094: <link href="atheros.css" type=text/css rel=stylesheet>
+00cc: <title>Atheros - AP Web interface - List of Stations Privacy</ti
+010c: tle>
+0112: <base target="_self">
+0129: </HEAD>
+0132: <BODY bgColor=#FFFFFF topmargin="0" leftmargin="0">
+0167: <center>
+0171: <div align="left">
+0185: 
+0187: <TABLE bgColor=#FFFFFF border=0 cellSpacing=3 width=478>
+01c1:   <TBODY>
+01cc:     <tr>
+01d6:       <TH align=left bgColor=#FFFFFF>
+01fd: .    <p><b><font class=hdrblue>Configuration</font><font class=h
+023d: drblack> -&gt;</font>
+0254:         <font class=hdrgreen>2.4GHz&nbsp;ACL</font></b>
+028d:       </TH>
+029a: .  <td align=right>
+02af: ..<INPUT onclick="{self.open('HACL.htm','Help','alwaysRaised,res
+02ef: izable,scrollbars,width=560,height=400');}" type=button value=He
+032f: lp>
+0334: .  </td>
+033e:     </tr>
+0349: .<tr><th colspan=4></th></tr>
+0368:   </tbody>
+0374: </table>
+037e: 
+0380: <TABLE bgColor=#FFFFFF border=0 cellSpacing=0 width=478>
+03ba:   <TBODY>
+03c5:     <tr><th><hr></th><tr>
+03e0:   </tbody>
+03ec: </table>
+03f6: 
+03f8: <table bgColor=#FFFFFF border=0 cellSpacing=3 width=478>
+0432:   <tbody>
+043d: .<tr>
+0444:       <th align=center bgColor=#FFFFFF class=smallblackfont cols
+0484: pan=4>
+048c: ..Click the <a href="privnew.htm?MAC_ADDR=">
+04ba: ..<img value="Add to ACL" src="add.gif" border=0 align=absmiddle
+04fa: ></a>&nbsp;button to add new AC
+== Info: Received problem 2 in the chunky parser
+== Info: Closing connection #0

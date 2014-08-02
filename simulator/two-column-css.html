@@ -1,0 +1,304 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Simulator Command and Control</title>
+
+<script type="text/javascript" src="javascript/prototype.js"></script>
+<script type="text/javascript" src="javascript/scriptaculous.js"></script>
+<script type="text/javascript">
+
+if (document.images) {
+    // cache some button images 
+    var loadImgArray = new Array( );
+		loadImgArray["load"] = new Image(75,35);
+		loadImgArray["loadHi"] = new Image(75,35);
+		loadImgArray["load"].src = "/load.png";
+		loadImgArray["loadHi"].src = "/loadHi.png";
+}
+function loadImage(imgName) {
+    if (document.images) {
+        document.images["load"].src = loadImgArray[imgName].src;
+    }
+}
+function loadHi(imgName) {
+    if (document.images) {
+        document.images[imgName].src = loadImgArray[imgName].src;
+    }
+}
+function loadNormal(imgName) {
+    if (document.images) {
+        document.images[imgName].src = loadImgArray[imgName].src;
+    }
+}
+function clear_scenario_fields()
+{
+	$('scenario_name').innerHTML = '';
+	$('scenario_error').innerHTML = '';
+	$('scenario_status').innerHTML = '';
+	$('scenario_container').innerHTML = '';
+}
+function ajax_load_scenario()
+{
+	//alert($H($('scenarios')).inspect());
+	load_sceanrio = new Ajax.Updater(
+			{
+				success: 'scenario_name',
+				failure: 'scenario_error'
+			},
+			"/cnc",
+			{
+				parameters: 'command=load_scenario&scenario=' + $('scenarios').value,
+				onSuccess: function(request)
+					{
+						Effect.Fade('scenario_box');
+						$('scenario_status').innerHTML = "Scenario loaded and ready to start.";
+						Effect.Appear('scenario_status');
+					},
+				onFailure: function(request)
+					{
+						alert("Stuff DIDN'T Happen, alert the programmers: " + request.responseText);
+					},
+				onException: function(request)
+					{
+						alert("Stuff REALLY didn't Happen, alert the programmers: " + request.responseText);
+					}
+			});
+}
+function ajax_choose_scenario()
+{
+	clear_scenario_fields();
+	choose_scenario = new Ajax.Updater(
+			{
+				success: 'scenario_container',
+				failure: 'scenario_error'
+			},
+			"/cnc",
+			{
+				parameters: 'command=choose_scenario',
+				onSuccess: function(request)
+					{
+						Effect.Appear('scenario_buttons');
+					},
+				onFailure: function(request)
+					{
+						alert("Stuff DIDN'T Happen, alert the programmers: " + request.responseText);
+					},
+				onException: function(request)
+					{
+						alert("Stuff REALLY didn't Happen, alert the programmers: " + request.responseText);
+					}
+			});
+}
+</script>
+
+<style type="text/css">
+
+body{
+	margin:0;
+	padding:0;
+	line-height: 1.5em;
+	font-family: Lucida Grande, Arial, sans-serif;
+}
+
+b{font-size: 110%;}
+em{color: red;}
+#maincontainer{
+	width: 1040px; /*Width of main container*/
+	margin: 0 auto; /*Center container on page*/
+}
+
+#topsection{
+	color:	#3d51ff; /*#7A7AFF;*/
+	height: 90px; /*Height of top section*/
+  position: relative;
+}
+
+#topsection h1{
+	margin: 0;
+	padding-top: 35px;
+}
+
+#contentwrapper{
+	float: left;
+	width: 100%;
+}
+
+#contentcolumn{
+	margin-left: 200px; /*Set left margin to LeftColumnWidth*/
+}
+
+#leftcolumn{
+	float: left;
+	width: 200px; /*Width of left column*/
+	margin-left: -1040px; /*Set left margin to -(MainContainerWidth)*/
+	/*background: #C8FC98;*/
+	height: 750px;
+}
+
+#footer{
+	clear: left;
+	width: 100%;
+	background: black;
+	color: #FFF;
+	text-align: center;
+	padding: 4px 0;
+}
+
+#footer a{
+	color: #FFFF80;
+}
+
+.innertube{
+	margin: 10px; /*Margins for inner DIV inside each column (to provide padding)*/
+	margin-top: 0;
+}
+
+.blue { 
+  background-color: #2382a1; 
+}
+.green { 
+  background-color: #51ff3d; 
+}
+.pink { 
+  background-color: #ff009d;
+}
+.orange { 
+  background-color: #ff8b3d;
+}
+.yellow { 
+  background-color: #ffec3d;
+}
+.grey { 
+  background-color: #999999;
+}
+.green { 
+  background-color: #00ff66;
+}
+.gradwhite img, .gradblack img {
+  background-color: transparent;
+  height: 100%;
+  left: 0px;
+  position: absolute;
+  top: 0px;
+  width: 100%;
+	z-index: 0;
+}
+.gradwhite h1, gradblack h1 {
+  margin: 0px;
+}
+.gradwhite span, gradblack span {
+  margin: 0px;
+  padding: 5px;
+}
+.gradwhite *, gradblack * {
+  position: relative;
+  z-index: 1;
+}
+.scenario_box {
+	position:relative;
+	top:10px; 
+	left: 10px;
+	width: 40%;
+	padding: 10px;
+	font-size:18px;
+}
+.boxtop {
+  height: 90px;
+  margin: 0px;
+	padding-left: 10px;
+  position:relative;
+  width: 1030px;
+}
+.leftcolumnbox {
+	height: 400px;
+  margin: 1px;
+  position:relative;
+  width: 200px;
+}
+.contentcolumnbox {
+  margin: 1px;
+  position:relative;
+}
+.scenario {
+	clear: left;
+  border: solid black 2px;
+  float: left;
+  height: 190px;
+  margin: 1px;
+  position:relative;
+  width: 284px;
+}
+#scenario_container {
+	padding:10px;
+	top:20px;
+	margin:25px 15px 5px 15px;
+}
+#scenario_buttons {
+	padding:5px;
+	top:80px;
+	margin:25px 15px 5px 170px;
+}
+
+.script { z-index: 1 }
+</style>
+
+</head>
+<body>
+<div id="maincontainer" class="yellow">
+
+	<div id="topsection">
+		<div class="boxtop gradwhite orange">
+			<img src="/grad_white.png"/>
+			<h1>Web Interface to Simulator CnC </h1>
+		</div>
+	</div>
+		
+<div id="contentwrapper">
+	<div id="contentcolumn">
+		<div style="position:relative;" class="innertube">
+			<img style="position:absolute;" src="/both.png"/>
+			<div style="position:absolute; top:50px; left:100px; width:120px; height:75px;">
+				<span  id="scenario_name">
+				</span>
+			</div>
+			<div style="position:absolute; display:none; top:190px; left:100px; width:120px; height:75px;" id="scenario_status">
+			</div>
+			<div id="scenario_box" style="position:relative; display:none" class= "scenario_box ">
+					<img style="position:relative; float:left; top:30px; left:250px; z-index:0;" src="/load box.png"/>
+						<a href='javascript: ajax_choose_scenario();'
+						onmouseover="loadImage('loadHi');" 
+						onmouseout="loadImage('load')" 
+						> <img name="load" border="0"  style="position:absolute; top:50px; right:-80px;" src="/load.png"/> </a>
+					<span id='scenario_container' style="position:absolute; top:50px; right:-220px;">
+					</span>
+					<span id='scenario_buttons' style='display:none; position:absolute; top:130px; right:-215px;'>
+						<input type="button" value="Load Scenario" onclick="ajax_load_scenario();"/>
+					</span>
+			</div>
+			<span id="scenario_error">
+			</span>
+		</div>
+	</div>
+</div>
+
+<div id="leftcolumn" class="green">
+	<div class="innertube ">
+		<img style="position:absolute;"src="/controls.png"/>
+		<span style="position:relative; top:120px; left:20px;" onclick="Effect.Appear('scenario_box')">Scenario</span>
+	</div>
+</div>
+
+<div id="footer">
+	<a href="javascript: do_something()">More Information</a>
+</div>
+
+</div>
+</body>
+</html>
+
+					<!--<div style="position:relative;z-index:1;padding:10px;top:5px;width:150px; margin:10px;"-->
+						<!--onclick='ajax_choose_scenario();' onmouseover="this.style.background='blue';" -->
+						<!--onmouseout="this.style.background='transparent'" -->
+						<!-->-->

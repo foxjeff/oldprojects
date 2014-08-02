@@ -1,0 +1,219 @@
+#Simulator Use Cases
+#Simulator Operator = SimOp
+#version 2
+SimOp
+
+  Create Buses:
+    Create Bus: createBus BUS001 # BUS002, etc.
+  Create Stations: 
+    Create Station: createStation STA001 # STA002, etc.
+  Create Bus Groups:
+    Create Bus Group: createBusGroup BUSGROUP001 = BUS001 + BUS002
+  Create Station Groups:
+    Create Station Group: createStationGroup STATIONGROUP001 = STA001 + STA002  
+    
+  Create Aliases for Actions and Objects: 
+    # e.g. BUS001 is an Object; simulate is an Action
+    Create Alias for Action "simulate": aliasAction simulate as sim
+    Create Alias for Action "arriving": aliasAction arriving as ariv
+    Create Alias for Action "departing": aliasAction departing as dprt
+    
+    Create Alias for Object "BUSGROUP001": aliasObect BUSGROUP001 as KollamBusesArrving
+    Create Alias for Object "STATIONGROUP001": aliasObject STATIONGROUP001 as KollamStation
+
+  Simulate a Bus arriving at Station X: simulate BUS001 arriving STA001
+  Simulate a Bus departing Station X: simulate BUS001 departing STA001
+  Simulate a TextAd for all Buses at KollamStation: sim TextAd001 for KollamStation
+  Simulate a GraphicsAd for all Buses at KollamStation: sim GraphicsAd001 for KollamStation
+  Simulate Moderate Traffic at KollamStation: sim ModerateTraffic for KollamStation  
+
+  Create Simulation Moderate Traffic: createSimulation ModerateTraffic01 as
+                                        KollamBusesArrving ariv KollamStation
+                                        and BUS011 + BUS012 + BUS013 ariv STA003
+                                        and BUS023 + BUS033 dprt STA012
+                                        
+  Create Simulation Heavy Traffic: createSimulation HeavyTraffic12 as
+                                      ModerateTraffic01
+                                      and ModerateTraffic12
+                                      and ModerateTraffic14
+
+#Simulator Objects as ruby classes?
+Simulator Objects and Messages: 
+  TGATE:
+    Incoming Messages:
+      LUP from IVTU
+      LNM from TDCS
+      LAK from TDCS   #repeats as empty (no payload) message for STAYALIVE
+      TUP from TDCS
+    Outgoing Messages:
+      REG to TDCS
+      LUP to TDCS   #repeats as empty (no payload) message for STAYALIVE
+      LAK to IVTU
+  IVTU:
+    Incoming Messages:
+      LAK from TGATE #repeats until ITVU-LUP message indicates location name has been received
+    Outgoing Messages:
+      LUP to TGATE  #repeats for stay-alive function
+  TDCS:
+    Incoming Messages:
+      REG from TGATE
+      LUP from TGATE
+    Outgoing Messages:
+      LNM to TGATE
+      TUP to TGATE
+        # always send together in response to REG
+      LAK to TGATE
+
+    Bus:      an IVTU
+    Station:  a TGATE
+    TDCS:     a virutal sender/receiver
+    TCM:      a virtual receiver (sender?)
+    TID:      a virtual receiver (sender?)
+    TVIA:     a virtual receiver (sender?)
+    GVIA:     a virtual receiver (sender?)
+# virtual objects do not have OpSim direct actions,
+#   but send/receive messages in response to actual OpSim actions
+# what other messages? e.g. TCM, TID
+# what about textonly and grophics ad messages
+
+Map OpSim actions to internal Sim message sequences:
+  Examples:
+    simulate BUS001 arriving STA001
+      => the ITVU standing for BUS001 sends LUP to TGATE standing for STA001
+            #flagged with "unknown location"
+         the TGATE sends LAK (with location) to IVTU
+            #only until TGATE received LUP with "location known"
+         the TGATE sends LUP (every n seconds) to virtual TDCS
+            #sends aggreated LUP for all IVTU LUPS received in n second interval to TDCS
+         TDCS sends LAK to TGATE
+         ITVU sends LUP (STAYALIVE) message to TGATE and TGATE aggregates ITVU LUPS and sends to TDCS
+    TGATE Network Info:
+         10.1.254.254
+         255.255.0.0
+         udp: 9090
+    TDCS Network Info:
+         59.145.110.83 or 192.168.0.233 internal network
+         tcp: 9090
+       
+    simulate BUS001 departing STA001
+      => the IVTU standing for BUS001 stops sending STAYALIVE message to TGATE
+          #TDCS: and some n minutes have passed (and other heuristics as TBD)
+         
+    simulate STA001 coming online
+      => the TGATE standing for STA001 sends REG to TDCS
+         the TDCS sends LNM and TUP to TGATE
+       
+     simulate STA001 going offline
+       => the TGATE standing for STA001 stops sending LUP
+           the TDCS detects absense of TGATE-LUP and notes the Station as offline
+            #all IVTU data becomes invalid due to TGATE offline and disconnects (TDCS receive EOF on tcp port)
+  
+
+Simulator Components:
+  OpSim interface:
+    command line?
+    web page?
+    other? (dedicated application?)
+  InternalSimulator or the Simulator Engine SE:
+    # Something (a Simulator Object or a Live Object)
+    #   Generates an Event (probably only a message, but you never know)
+    #   Some Object acting as an Event Receiver receives the Event
+    #     Event Receiver takes Some Action
+    #       1) store the message to a cache or db
+    #       2) sends its own Event/message 0..n
+    #       3) does nothing
+    # IMPORTANT ASSUMPTION:
+    #   Events/messages are never broadcast but are sent to specfic Receivers
+    #   At any moment there are 0..n Somethings sending 0..n Event/messages
+    #   Real Life Somethings can interact with the SE, sending and receiving Events
+    #   SE TGATEs will need to "kick" RL IVTU's to simulate the departure and arrival
+    #     in order to simulate all RL IVTU arrival and departures (add/remove IVTU mac address from AP ACL)
+    #     simulated IVTU uses its WIFI card to access actual TGATE WIFI
+    # Questions:
+    #   What happens when there is no Event Receiver to receive a given event?
+    #     Do Simulator Objects and/or their Live counterparts deal with this gracefully?
+    #     SE should handle downed TGATES and TDCS
+    #   Should the SE log all messages? YES
+    #   How does the Event Sender know where to send it's messages?
+    #     Well known ip's and tcp/udp ports? DNS entries?  /etc/hosts files? other?
+    #   Handle diagnostics messages as well (nice to have)
+    
+  Simulator database tables:
+    stations:
+      stations
+        id
+        name
+      station_aliases
+        station_id
+        alias
+    buses:
+      buses
+        id
+        name
+      bus_aliases
+        bus_id
+        alias
+    actions:
+      actions
+        id
+        name
+        message_sequence_id
+      action_aliases
+        action_id
+        alias
+      message_sequences (see Message_meta_info)
+        id
+      
+
+  Simulator Objects:
+    Buses     as IVTUs
+    TDCS      as TDCS
+    TCMs (???are these a necessary part of the Simulator?)
+    TIDs (???)
+    TVIAs (???)
+    GVIAs (???)
+  Simulation Construction:
+    creation of Buses and Stations
+    creation of actions
+    creation of Proxies for TGATES and TDCS and proxied IVTUs
+    TDCS will be simulated #look at Dinesh's java code for ideas on tcp message handling
+    # there is only one TDCS ???will it be simulated or live???
+
+
+
+Integration of Simulator with Live Messaging: #yes
+
+Aggregate Messages:
+  Examples:
+    show all BUS001 LUP at STATION001 since 2pm
+    purge all messages from BUS001
+    Simulated TDCS can stand as proxy for Live TDCS
+
+Simulator Data that must persist:
+  #from Amit's ITEWS-DB image:
+  Tables: 
+    TGATE_messages
+      id
+      attributes
+      message_timestamp
+      received_timestamp
+      message_main_type
+      message_sub_type
+      tgate_id
+      vehicle_id
+    Message_meta_info
+      id
+      main_type eg. LUP
+      sub_type  eg. TGATE
+      description eg. LUP message from TGATE to TDCS
+    TGATE_meta_info
+      id
+      station_name
+    Vehicle_meta_info
+      id
+      license_number
+      description
+    
+
+Buses and Routes:
+  

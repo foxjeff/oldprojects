@@ -1,0 +1,162 @@
+
+
+The File::Tail module can be included in File objects and mixes in the wind, rewind and tail methods.
+Usage
+
+Direct extension of File objects works like that:
+
+ File.open(filename) do |log|
+   log.extend(File::Tail)
+   log.interval = 10
+   log.rewind(10)
+   log.tail { |line| puts line }
+
+end
+
+It¿s also possible to mix File::Tail in your own File classes (see also File::Tail::Logfile):
+
+ class MyFile < File
+   include File::Tail
+ end
+ log = MyFile.new("myfile")
+ log.interval = 10
+ log.rewind(10)
+ log.tail { |line| print line }
+
+The wind/rewind method returns self, so it¿s possible to chain methods together like that:
+
+ log.rewind(10).tail { |line| puts line }
+
+
+processing KYM to ALP
+        processing KL9-3041: V002
+                processing KYM: T003
+                processing ALP: T004
+        processing KL8-5692: V001
+                processing KYM: T003
+                processing ALP: T004
+[Tue Nov 28 19:59:30 IST 2006, {"vehicle"=>"V002", "evt"=>"arrival", "station"=>"T003"}]
+[Tue Nov 28 19:59:50 IST 2006, {"vehicle"=>"V002", "evt"=>"departure", "station"=>"T003"}]
+hello world, now accepting connections at ip: 127.0.0.1 on port: 9090
+it's now Tue Nov 28 19:59:26 IST 2006
+[Tue Nov 28 19:59:57 IST 2006, {"vehicle"=>"V001", "evt"=>"arrival", "station"=>"T003"}]
+[Tue Nov 28 20:00:19 IST 2006, {"vehicle"=>"V001", "evt"=>"departure", "station"=>"T003"}]
+[Tue Nov 28 20:01:33 IST 2006, {"vehicle"=>"V002", "evt"=>"arrival", "station"=>"T004"}]
+[Tue Nov 28 20:02:00 IST 2006, {"vehicle"=>"V001", "evt"=>"arrival", "station"=>"T004"}]
+[Tue Nov 28 20:02:15 IST 2006, {"vehicle"=>"V002", "evt"=>"departure", "station"=>"T004"}]
+[Tue Nov 28 20:02:40 IST 2006, {"vehicle"=>"V001", "evt"=>"departure", "station"=>"T004"}]
+#<Simulator::IVTU:0x6a264c @tgate_name="", @license_number="KL8-5692}", @seq=1, @location_known="U", @code="V001">
+in initialize_cnc,testing is: false, and @@current_scenario = scenarios-2-vehicles-1-routes.yaml 
+in set_testing, @@testing = false
+localhost - - [28/Nov/2006:19:59:34 IST] "POST /cnc HTTP/1.1" 200 5
+http://localhost:2000/cnc-simulator.html -> /cnc
+in initialize_cnc,testing is: false, and @@current_scenario = scenarios-2-vehicles-1-routes.yaml 
+starting/unpausing scenario
+top of process_timeline, 8
+processing: Tue Nov 28 19:59:30 IST 2006 @19:59:26
+[2006-11-28 19:59:34] ERROR NoMethodError: undefined method `run' for nil:NilClass
+        ./CommandAndControl.rb:184:in `start_scenario'
+        ./cnc-web-interface.rb:80:in `do_POST'
+        /usr/local/lib/ruby/1.8/webrick/httpservlet/abstract.rb:35:in `service'
+        /usr/local/lib/ruby/1.8/webrick/httpserver.rb:104:in `service'
+        /usr/local/lib/ruby/1.8/webrick/httpserver.rb:65:in `run'
+        /usr/local/lib/ruby/1.8/webrick/server.rb:173:in `start_thread'
+        /usr/local/lib/ruby/1.8/webrick/server.rb:162:in `start_thread'
+        /usr/local/lib/ruby/1.8/webrick/server.rb:95:in `start'
+        /usr/local/lib/ruby/1.8/webrick/server.rb:92:in `start'
+        /usr/local/lib/ruby/1.8/webrick/server.rb:23:in `start'
+        /usr/local/lib/ruby/1.8/webrick/server.rb:82:in `start'
+        ./cnc-web-interface.rb:140:in `start_webrick'
+        ./cnc-web-interface.rb:155
+{"V002"=>"T003"}
+localhost - - [28/Nov/2006:19:59:34 IST] "POST /cnc HTTP/1.1" 500 319
+http://localhost:2000/cnc-simulator.html -> /cnc
+V002 has arrived.
+V002 is waiting for response from TGate
+TGate @TVM_Bus_Station is online @849191376
+TGate @KLM_Bus_Station is online @849191376
+TGate @KYM_Bus_Station is online @849191376
+TGate @ALP_Bus_Station is online @849191376
+TGate @EKM_Bus_Station is online @849191376
+V002, retrying TGate....
+V002 is waiting for response from TGate
+V002, response received: LAK T003 KYM_Bus_Station
+V002, starting LUP L sequence
+V002 has arrived at T003
+Tue Nov 28 19:59:36 IST 2006
+top of process_timeline, 7
+Tue Nov 28 19:59:46 IST 2006
+top of process_timeline, 7
+processing: Tue Nov 28 19:59:50 IST 2006 @19:59:46
+V002 is moving.
+V002 has departed T003
+Tue Nov 28 19:59:56 IST 2006
+top of process_timeline, 6
+processing: Tue Nov 28 19:59:57 IST 2006 @19:59:56
+{"V001"=>"T003", "V002"=>"T003"}
+V001 has arrived.
+V001 is waiting for response from TGate
+V001, response received: LAK T003 KYM_Bus_Station
+V001, starting LUP L sequence
+V001 has arrived at T003
+Tue Nov 28 20:00:06 IST 2006
+top of process_timeline, 5
+Tue Nov 28 20:00:16 IST 2006
+top of process_timeline, 5
+processing: Tue Nov 28 20:00:19 IST 2006 @20:00:16
+V001 is moving.
+V001 has departed T003
+Tue Nov 28 20:00:26 IST 2006
+top of process_timeline, 4
+Tue Nov 28 20:00:36 IST 2006
+top of process_timeline, 4
+Tue Nov 28 20:00:46 IST 2006
+top of process_timeline, 4
+Tue Nov 28 20:00:56 IST 2006
+top of process_timeline, 4
+Tue Nov 28 20:01:06 IST 2006
+top of process_timeline, 4
+^[[BTue Nov 28 20:01:16 IST 2006
+top of process_timeline, 4
+Tue Nov 28 20:01:26 IST 2006
+top of process_timeline, 4
+processing: Tue Nov 28 20:01:33 IST 2006 @20:01:26
+{"V001"=>"T003", "V002"=>"T004"}
+V002 has arrived.
+V002 is waiting for response from TGate
+V002, response received: LAK T004 ALP_Bus_Station
+V002, starting LUP L sequence
+V002 has arrived at T004
+Tue Nov 28 20:01:36 IST 2006
+top of process_timeline, 3
+Tue Nov 28 20:01:46 IST 2006
+top of process_timeline, 3
+V002 has departed T004
+Tue Nov 28 20:01:56 IST 2006
+top of process_timeline, 3
+processing: Tue Nov 28 20:02:00 IST 2006 @20:01:56
+{"V001"=>"T004", "V002"=>"T004"}
+V001 has arrived.
+V001 is waiting for response from TGate
+V001, response received: LAK T004 ALP_Bus_Station
+V001, starting LUP L sequence
+V001 has arrived at T004
+Tue Nov 28 20:02:06 IST 2006
+top of process_timeline, 2
+processing: Tue Nov 28 20:02:15 IST 2006 @20:02:06
+V002 is moving.
+###
+### V002 departure event from tdcs is missing
+###
+Tue Nov 28 20:02:16 IST 2006
+top of process_timeline, 1
+Tue Nov 28 20:02:26 IST 2006
+top of process_timeline, 1
+Tue Nov 28 20:02:36 IST 2006
+top of process_timeline, 1
+processing: Tue Nov 28 20:02:40 IST 2006 @20:02:36
+V001 is moving.
+V001 has departed T004
+Tue Nov 28 20:02:46 IST 2006
+top of process_timeline, 0
+Scenario is finished.

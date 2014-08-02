@@ -1,0 +1,594 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Simulator Command and Control</title>
+
+<script type="text/javascript" src="javascript/prototype.js"></script>
+<script type="text/javascript" src="javascript/scriptaculous.js"></script>
+<script type="text/javascript">
+
+var scenario_fields = ['scenario_name','scenario_error', 'scenario_status', 'scenario_container'];
+
+if (document.images) {
+    // cache some button images 
+    var loadImgArray = new Array( );
+		loadImgArray["load"] = new Image(75,35);
+		loadImgArray["loadHi"] = new Image(75,35);
+		loadImgArray["load"].src = "/load.png";
+		loadImgArray["loadHi"].src = "/loadHi.png";
+}
+function tail_foo()
+{
+	console.log("calling tail_foo ");
+	log_tail = new Ajax.PeriodicalUpdater(
+			'dump',
+			'/cnc', 
+			{
+				frequency: 5,
+				parameters:'command=tail_foo',
+				onSuccess: function(request)
+					{
+						new Insertion.Bottom('log_area', request.responseText);
+						$('log_area').scrollTop = $('log_area').scrollHeight;
+						//Element.scrollTo('log_area');
+					},
+					onFailure: function(request)
+						{
+							console.log("Stuff DIDN'T Happen, alert the programmers: " + request.responseText);
+						},
+					onException: function(request)
+						{
+							console.log("Stuff REALLY didn't Happen, alert the programmers: " + request.responseText);
+						}
+			});
+}
+function start_scenario()
+{
+	console.log("starting scenario");
+	
+	new Ajax.Request('/cnc',
+			{
+				parameters:'command=start_scenario', 
+				onSuccess: function(request)
+					{
+						$('scenario_status').innerHTML = request.responseText;
+						console.log(request.responseText);
+					}
+			});
+}
+function start_cnc()
+{
+	console.log("starting cnc");
+	
+	new Ajax.Request('/cnc',
+			{
+				parameters:'command=start_cnc', 
+				onSuccess: function(request)
+					{
+						console.log(request.responseText);
+					}
+			});
+}
+function loadImage(imgName) {
+    if (document.images) {
+        document.images["load"].src = loadImgArray[imgName].src;
+    }
+}
+function loadHi(imgName) {
+    if (document.images) {
+        document.images[imgName].src = loadImgArray[imgName].src;
+    }
+}
+function loadNormal(imgName) {
+    if (document.images) {
+        document.images[imgName].src = loadImgArray[imgName].src;
+    }
+}
+function clear_scenario_fields()
+{
+	scenario_fields.each(function(field)
+	{
+		//console.log('field: %s, oldvalue: %s', field, $(field).innerHTML);
+		field.innerHTML = '';
+	});
+}
+function ajax_set_scenario()
+{
+	//alert($H($('scenarios')).inspect());
+	load_sceanrio = new Ajax.Updater(
+			{
+				success: 'scenario_name',
+				failure: 'scenario_error'
+			},
+			"/cnc",
+			{
+				parameters: 'command=set_scenario&scenario=' + $('scenarios').value,
+				onSuccess: function(request)
+					{
+						Effect.Fade('scenario_box');
+						$('scenario_status').innerHTML = "Scenario loaded and ready to start.";
+						Effect.Appear('scenario_status');
+					},
+				onFailure: function(request)
+					{
+						alert("Stuff DIDN'T Happen, alert the programmers: " + request.responseText);
+					},
+				onException: function(request)
+					{
+						alert("Stuff REALLY didn't Happen, alert the programmers: " + request.responseText);
+					}
+			});
+}
+function ajax_choose_scenario()
+{
+	clear_scenario_fields();
+	choose_scenario = new Ajax.Updater(
+			{
+				success: 'scenario_container',
+				failure: 'scenario_error'
+			},
+			"/cnc",
+			{
+				parameters: 'command=choose_scenario',
+				onSuccess: function(request)
+					{
+						Effect.Appear('scenario_buttons');
+					},
+				onFailure: function(request)
+					{
+						alert("Stuff DIDN'T Happen, alert the programmers: " + request.responseText);
+					},
+				onException: function(request)
+					{
+						alert("Stuff REALLY didn't Happen, alert the programmers: " + request.responseText);
+					}
+			});
+}
+function show_sim_data()
+{
+	sim_updates = new Ajax.PeriodicalUpdater(
+			{// success: 'bar',
+				failure: 'foo' },
+			"http://localhost:2000/cnc",
+			{
+				decay: 1,
+				frequency: 5,
+				asynchronous: true,
+				method: 'post',
+				parameters: 'command=status',
+				onSuccess: function(request)
+					{
+						if (request.responseText == "none")
+							return;
+
+						var status = request.responseText.split(",");
+						for (var i = 0; i < status.length; i += 2)
+						{
+							console.log("status update: " + request.responseText); //status[i+1]);
+							//$(status[i]).innerHTML = status[i+1];
+							//new Effect.Highlight($(status[i]), {startcolor:'#ff99ff', endcolor:'#bbbbbb'});
+						}
+					},
+				onFailure: function(request)
+					{
+						//alert("Stuff DIDN'T Happen, alert the programmers: " + request.responseText);
+					},
+				onException: function(request)
+					{
+						//alert("Stuff REALLY didn't Happen, alert the programmers: " + request.responseText);
+					}
+			});
+	new Ajax.Request(
+			"http://localhost:2000/cnc",
+			{
+				asynchronous: true,
+				method: 'post',
+				parameters: 'command=schedule',
+				onSuccess:function(request)
+					{
+						//alert(request.responseText);
+						consoloe.log("schedule data: " + request.responseText); //schedule[i+1]);
+						var schedule = request.responseText.split(",");
+						for (var i = 0; i < schedule.length ; i += 2)
+							{
+								consoloe.log("schedule data: " + request.responseText); //schedule[i+1]);
+								//$(schedule[i]).innerHTML = schedule[i+1];
+								//new Effect.Highlight($(schedule[i]), {startcolor:'#ff99ff', endcolor:'#999999'});
+							}
+					},
+				onFailure: function(request)
+					{
+						//alert("Stuff DIDN'T Happen, alert the programmers: " + request.responseText);
+					},
+				onException: function(request)
+					{
+						//alert("Stuff really DIDN'T Happen, alert the programmers: " + request.responseText);
+					}
+			});
+}
+</script>
+
+<style type="text/css">
+
+body{
+	margin:0;
+	padding:0;
+	line-height: 1.5em;
+	font-family: Lucida Grande, Arial, sans-serif;
+}
+
+b{font-size: 110%;}
+em{color: red;}
+#maincontainer{
+	width: 930px; /*Width of main container*/
+	margin: 0 auto; /*Center container on page*/
+}
+
+#topsection{
+	color:	#3d51ff; /*#7A7AFF;*/
+	height: 90px; /*Height of top section*/
+  position: relative;
+}
+
+#topsection h1{
+	margin: 0;
+	padding-top: 35px;
+}
+
+#contentwrapper{
+	float: left;
+	width: 100%;
+}
+
+#contentcolumn{
+	margin-left: 200px; /*Set left margin to LeftColumnWidth*/
+	height: 650px;
+}
+
+#leftcolumn{
+	float: left;
+	width: 200px; /*Width of left column*/
+	margin-left: -930px; /*Set left margin to -(MainContainerWidth)*/
+	/*background: #C8FC98;*/
+	height: 250px;
+}
+
+#footer{
+	clear: left;
+	width: 100%;
+	background: black;
+	color: #FFF;
+	text-align: center;
+	padding: 4px 0;
+}
+
+#footer a{
+	color: #FFFF80;
+}
+
+.innertube{
+	margin: 10px; /*Margins for inner DIV inside each column (to provide padding)*/
+	margin-top: 0;
+}
+
+.hblue {
+	background-color:	#3d51ff; /*#7A7AFF;*/
+}
+.blue { 
+  background-color: #2382a1; 
+}
+.green { 
+  background-color: #51ff3d; 
+}
+.pink { 
+  background-color: #ff009d;
+}
+.orange { 
+  background-color: #ff8b3d;
+}
+.yellow { 
+  background-color: #ffec3d;
+}
+.grey { 
+  background-color: #999999;
+}
+.gradwhite img, .gradblack img {
+  background-color: transparent;
+  height: 100%;
+  left: 0px;
+  position: absolute;
+  top: 0px;
+  width: 930px;
+	z-index: 0;
+}
+.gradwhite h1, gradblack h1 {
+  margin: 0px;
+}
+.gradwhite span, gradblack span {
+  margin: 0px;
+  padding: 5px;
+}
+.gradwhite *, gradblack * {
+  position: relative;
+  z-index: 1;
+}
+.scenario_box {
+	position:relative;
+	top:	55px; 
+	left: 260px;
+	width: 306px;
+	height: 212px;
+	padding: 10px;
+	font-size:18px;
+	background-image: url('load%20box.png');
+	background-repeat: no-repeat;
+}
+.station_1, .station_2 {
+	position:relative;
+	top:310px; 
+	left: -200px;
+	width: 463px;
+	height: 222px;
+	font-size:18px;
+	background-image: url('station_.png');
+	background-repeat: no-repeat;
+}
+.station_2 {
+	top: 88px;
+	left: 247px;
+	background-image: url('station_.png');
+}
+.station_name {
+	top:8px;
+	left:165px; 
+	position:absolute;
+	font-size:16px;
+}
+.station_table {
+	top:72px;
+	left:120px; 
+	position:absolute;
+}
+.station_arrival {
+	top:75px;
+	left:270px; 
+	position:absolute;
+}
+.station_departure {
+	top:75px;
+	left:365px; 
+	position:absolute;
+}
+.bus_1, .bus_2 {
+	position:relative;
+	top:75px; 
+	left: -59px;
+	width: 322px;
+	height: 97px;
+	font-size:18px;
+	background-image: url('bus_.png');
+	background-repeat: no-repeat;
+}
+.bus_2 {
+	top:-22px;
+	left: 247px;
+}
+.bus_name {
+	display:inline;
+	left:115px; 
+	top:6px;
+	position:absolute;
+	font-size:14px;
+}
+.bus_status, .bus_station, .bus_time {
+	display:inline;
+	top:48px; 
+	left:25px; 
+	position:absolute;
+}
+.bus_station {
+ left:125px;
+}
+.bus_time {
+ left:215px;
+}
+.boxtop {
+  height: 90px;
+  margin: 0px;
+	padding-left: 10px;
+  position:relative;
+  width: 920px;
+}
+.leftcolumnbox {
+	height: 400px;
+  margin: 1px;
+  position:relative;
+  width: 200px;
+}
+.contentcolumnbox {
+  margin: 1px;
+  position:relative;
+}
+.scenario {
+	clear: left;
+  border: solid black 2px;
+  float: left;
+  height: 190px;
+  margin: 1px;
+  position:relative;
+  width: 284px;
+}
+#scenario_container {
+	top:20px;
+	margin:25px 15px 5px 15px;
+}
+#scenario_buttons {
+	padding:5px;
+	top:80px;
+	margin:25px 15px 5px 170px;
+}
+
+.fancy {
+	background-image: url(fancy.png);
+	width:56px;
+	height:64px;
+	background-repeat:no-repeat;
+}
+</style>
+
+</head>
+<body >
+<div id="maincontainer" class="yellow">
+
+	<div id="topsection">
+		<div class="boxtop gradwhite orange">
+			<img src="/grad_white.png"/>
+			<h1>Web Interface to Simulator CnC </h1>
+		</div>
+	</div>
+		
+<div id="contentwrapper">
+	<div id="contentcolumn">
+		<div style="position:relative;" class="innertube">
+			<img style="position:absolute;" src="/both.png"/>
+			<div style="position:absolute; top:50px; left:100px; width:120px; height:75px;">
+				<span  id="scenario_name">
+				</span>
+			</div>
+			<div style="position:absolute; display:none; top:190px; left:100px; width:120px; height:75px;" id="scenario_status">
+			</div>
+			<div id="scenario_box" style="display:none" class= "scenario_box ">
+						<a href='javascript: ajax_choose_scenario();'
+						onmouseover="loadImage('loadHi');" 
+						onmouseout="loadImage('load')" 
+						> <img name="load" border="0" style="position:absolute; top:25px; left:25px;" src="/load.png"/> </a>
+					<span id='scenario_container' style="position:absolute; top:50px; right:25px;">
+					</span>
+					<span id='scenario_buttons' style="display:none; position:absolute; top:130px; right:130px;">
+						<input style="position:absolute;" type="button" value="Load Scenario" onclick="ajax_set_scenario();"/>
+						<input style="postion:absolute;float:left;margin-right:10px;" type="button" value="Cancel" onclick="Effect.Fade('scenario_box');Effect.Appear('hideme')"/>
+					</span>
+			</div>
+			<span id="scenario_error">
+			</span>
+			<div id="hideme">
+			<div id="station_1" class= "station_1">
+				<span class="station_name">Trivandram Station</span>
+				<table class="station_table" cellpadding='2' align='center' style=''>
+					<tr>
+						 <td width='80'><span id="T001_V001_arrival" >12:25</span></td>
+						 <td><span id="T001_V001_departure" >14:25</span></td>
+					 </tr>
+					<tr>
+						 <td width='80'><span id="T001_V002_arrival">12:25</span></td>
+						 <td><span id="T001_V002_departure">14:25</span></td>
+					 </tr>
+					<tr>
+						 <td width='80'><span id="T001_V003_arrival" >12:25</span></td>
+						 <td><span id="T001_V003_departure" >14:25</span></td>
+					 </tr>
+					<tr>
+						 <td width='80'><span id="T001_V004_arrival" >12:25</span></td>
+						 <td><span id="T001_V004_departure" >14:25</span></td>
+					 </tr>
+				 </table>
+			</div>
+			<div id="station_2" style="display:xnone" class= "station_2">
+				<span class="station_name">Kollam Station</span>
+				<table class="station_table" cellpadding='2' align='center' style=''>
+					<tr>
+						 <td width='80'><span id="T002_V001_arrival" >12:25</span></td>
+						 <td><span id="T002_V001_departure" >14:25</span></td>
+					 </tr>
+					<tr>
+						 <td width='80'><span id="T002_V002_arrival">12:25</span></td>
+						 <td><span id="T002_V002_departure">14:25</span></td>
+					 </tr>
+					<tr>
+						 <td width='80'><span id="T002_V003_arrival" >12:25</span></td>
+						 <td><span id="T002_V003_departure" >14:25</span></td>
+					 </tr>
+					<tr>
+						 <td width='80'><span id="T002_V004_arrival" >12:25</span></td>
+						 <td><span id="T002_V004_departure" >14:25</span></td>
+					 </tr>
+				 </table>
+				</div>
+				<div id="bus_1" style="display:xnone" class= "bus_1">
+					<span class="bus_name" >Really Fast Bus
+						</span>
+					<span class="bus_status">On Time
+						</span>
+					<span class="bus_station">Kollam
+						</span>
+					<span class="bus_time">22:25
+						</span>
+				</div>
+				<div id="bus_2" style="display:xnone" class= "bus_2">
+					<span class="bus_name" >ARL Special Bus
+						</span>
+					<span class="bus_status">On Time
+						</span>
+					<span class="bus_station">Kollam
+						</span>
+					<span class="bus_time">22:25
+						</span>
+				</div>
+			</div>
+		</div> <!--innertube-->
+	</div>
+</div>
+
+<div id="leftcolumn" class="hblue">
+	<div class="innertube ">
+		<!--<img style="position:absolute;"src="/controls.png"/>-->
+		<div class="fancy" style="cursor:pointer; position:relative; top:20px; left:0px;" onclick="Effect.Appear('scenario_box'); ajax_choose_scenario();">
+			<span onmouseout="this.style.color='black';" onmouseover="this.style.color='red';" style="top:20px;left:30px;position:absolute;">Choose_Scenario
+			</span>
+		</div>
+		<div class="fancy" style="cursor:pointer; position:relative; top:10px; left:0px;" >
+			<span  onmouseout="this.style.color='black';" onmouseover="this.style.color='red';"  style="position:absolute; top:20px; left:30px;" onclick="start_cnc();">Start_CnC
+			</span>
+		</div>
+		<div class="fancy" style="cursor:pointer; position:relative; top:0px; left:0px;" >
+			<span  onmouseout="this.style.color='black';" onmouseover="this.style.color='red';"  style="position:absolute; top:20px; left:30px;" onclick="start_scenario();">Start_scenario
+			</span>
+		</div>
+		<div class="fancy" style=" position:relative; top:-10px; left:0px;" >
+			<span  onmouseout="this.style.color='black';" onmouseover="this.style.color='red';"  style="position:absolute; top:20px; left:30px;" onclick="tail_foo();">LogFile
+		</div>
+	</div>
+</div>
+
+<div id="footer">
+	<a href="javascript: do_something()">More Information</a>
+</div>
+
+</div>
+
+<div class="after">
+<br />
+	<span id='foo'>Updates</span>
+	<input type='button' onclick='show_sim_data()' value='Show Sim Data'/>
+	<input type='button' onclick='javascript:sim_updates.stop()' value='Stop Updates'/>
+	<span id='bar'></span>
+
+	<input type="button" value="Stop" onclick="log_tail.stop();">
+	<input type="button" value="Hide" onclick="Element.hide('tail_foo');">
+	<input type="button" value="Show" onclick="Element.show('tail_foo');">
+	<div id='tail_foo' >
+		<textarea id = 'log_area' rows=10 cols=90></textarea>
+	</div>
+
+</div>
+
+<div id="dump" style="display:none;"></div>
+</body>
+</html>
+
+					<!--<div style="position:relative;z-index:1;padding:10px;top:5px;width:150px; margin:10px;"-->
+						<!--onclick='ajax_choose_scenario();' onmouseover="this.style.background='blue';" -->
+						<!--onmouseout="this.style.background='transparent'" -->
+						<!-->-->

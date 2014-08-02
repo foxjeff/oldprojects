@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>~/work/ITEWS/simulator/server.rb.html</title>
+<meta name="Generator" content="Vim/7.0">
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+<style type="text/css">
+<!--
+.Identifier { color: #008080; }
+.Constant { color: #c00000; }
+.Comment { color: #0000c0; }
+.Statement { color: #804000; }
+.Special { color: #c000c0; }
+pre { color: #000000; background-color: #ffffff; }
+body { color: #000000; background-color: #ffffff; }
+.PreProc { color: #c000c0; }
+.Type { color: #008000; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<span class="PreProc">#!/usr/bin/env ruby -w</span>
+<span class="PreProc">module </span><span class="Type">Simulator</span>
+        <span class="PreProc">require</span> <span class="Special">'</span>socket<span class="Special">'</span>
+        <span class="PreProc">require</span> <span class="Special">'</span>rubygems<span class="Special">'</span>
+        <span class="PreProc">require</span> <span class="Special">'</span>highline/import<span class="Special">'</span>
+
+        <span class="Identifier">Port</span> = <span class="Constant">8080</span>
+        <span class="Identifier">IP</span> = <span class="Special">'</span>127.0.0.1<span class="Special">'</span>
+
+        <span class="PreProc">class </span><span class="Type">Acceptor</span>
+
+                <span class="PreProc">include</span> <span class="Identifier">Simulator</span>
+                <span class="PreProc">include</span> <span class="Identifier">HighLine</span>::<span class="Identifier">SystemExtensions</span>
+                <span class="Comment">#include Obserable</span>
+
+                <span class="Statement">attr_accessor</span> <span class="Identifier">:server_thread</span>
+
+                <span class="PreProc">def </span><span class="Identifier">accept</span>
+                        puts <span class="Special">&quot;</span>hello world, now accepting connections at ip: <span class="Special">#{IP}</span> on port: <span class="Special">#{Port}</span><span class="Special">&quot;</span>, <span class="Special">&quot;</span>it's now <span class="Special">#{Time.now}</span><span class="Special">&quot;</span>
+
+                        <span class="Statement">begin</span>
+                                <span class="Identifier">@server_thread</span> = <span class="Identifier">Hash</span>.new;
+                                <span class="Identifier">Signal</span>.trap(<span class="Special">&quot;</span>INT<span class="Special">&quot;</span>) <span class="Statement">do</span>
+                                                <span class="Identifier">Thread</span>.new { handle_command_input }
+                                        <span class="Statement">end</span>
+                                server = <span class="Identifier">TCPServer</span>.new(<span class="Identifier">IP</span>, <span class="Identifier">Port</span>)
+                                <span class="Statement">while</span> (session = server.accept)
+                                        <span class="Identifier">@server_thread</span>[session] = <span class="Identifier">Thread</span>.new { handle_session(session, <span class="Constant">self</span>) }
+                                        puts <span class="Special">&quot;</span>starting new session: <span class="Special">#{session}</span><span class="Special">&quot;</span>, <span class="Special">&quot;</span>there are currently <span class="Special">#{@server_thread.size}</span> sessions<span class="Special">&quot;</span>
+                                <span class="Statement">end</span>
+                        <span class="Statement">rescue</span>
+                                puts <span class="Special">&quot;</span>Error: <span class="Special">#{$!}</span><span class="Special">&quot;</span>
+                        <span class="Statement">end</span>
+                <span class="PreProc">end</span>
+
+                <span class="PreProc">def </span><span class="Identifier">handle_command_input</span>
+                        <span class="Statement">while</span> ( command = get_character )
+                                <span class="Statement">case</span> command.chr
+                                        <span class="Statement">when</span> <span class="Special">/</span>q<span class="Special">/</span>
+                                                puts <span class="Special">&quot;</span>going away now...<span class="Special">&quot;</span>
+                                                <span class="Identifier">@server_thread</span>.each {|<span class="Identifier">s, thread</span>| thread.join}
+                                                <span class="Statement">exit</span>(<span class="Constant">0</span>)
+                                        <span class="Statement">when</span> <span class="Special">/</span>\?<span class="Special">/</span>
+                                                puts <span class="Special">&quot;</span>there are currently <span class="Special">#{@server_thread.size}</span> sessions<span class="Special">&quot;</span>, <span class="Identifier">@server_thread</span>.inspect
+                                        <span class="Statement">else</span>
+                                                puts <span class="Special">&quot;</span>hello<span class="Special">&quot;</span>
+                                <span class="Statement">end</span>
+                        <span class="Statement">end</span>
+                <span class="PreProc">end</span>
+
+                <span class="PreProc">def </span><span class="Identifier">handle_session</span>(session, observer)
+                        <span class="Statement">while</span> ( request = session.gets )
+                                session.print <span class="Special">&quot;</span>Request: <span class="Special">#{request}</span><span class="Special">&quot;</span>
+                                session.print <span class="Special">&quot;</span>hello from <span class="Special">#{self}</span><span class="Special">&quot;</span>
+                        <span class="Statement">end</span>
+                        <span class="Identifier">@server_thread</span>.reject! {|<span class="Identifier">s,t</span>| t == <span class="Identifier">Thread</span>.current}
+                        session.close
+                        puts <span class="Special">&quot;</span>session dropped, there are now <span class="Special">#{@server_thread.size}</span> sessions<span class="Special">&quot;</span>
+                        <span class="Identifier">Thread</span>.exit
+                <span class="PreProc">end</span>
+
+        <span class="PreProc">end</span>
+<span class="PreProc">end</span>
+
+a = <span class="Identifier">Simulator</span>::<span class="Identifier">Acceptor</span>.new
+a.accept
+</pre>
+</body>
+</html>

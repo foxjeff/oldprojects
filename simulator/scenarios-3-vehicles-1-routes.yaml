@@ -1,0 +1,37 @@
+---
+- !arl.amrita.edu,2006/route
+  name: TVM to EKM
+  nodes:
+            -
+              seq:  1
+              name: TVM
+              tt:   0
+              code: T001
+            -
+              seq:  2
+              name: KLM
+              tt:   90
+              code: T002
+            -
+              seq:  3
+              name: KYM
+              tt:   55
+              code: T003
+  vehicles:
+            -
+              code: V003
+              lic:  KL3-5395
+              tod:  10
+            -
+              code: V002
+              lic:  KL2-9448
+              tod:  12
+            -
+              code: V001
+              lic:  KL3-7558
+              tod:  25
+            -
+              code: V010
+              lic:  KL1-0108
+              tod:  17
+

@@ -1,0 +1,160 @@
+=~db=DBI.connect('DBI:Mysql:simulator_development','root','')
+=~row = db.select_one(%q(
+BEGINSELECT re.end_node_id, description 
+BEGINFROM nodes, route_edges re
+BEGINWHERE re.edge_order = 
+Binding(SELECT MAX(re.edge_order) 
+Binding FROM route_edges re 
+Binding WHERE re.route_id = 4) 
+BasicSocketAND re.route_id = 4 
+BasicSocketAND re.end_node_id = nodes.id))
+SELECT re.end_node_id, description FROM nodes, route_edges re WHERE re.edge_order = (SELECT MAX(re.edge_order) FROM route_edges re WHERE re.route_id = 4) AND re.route_id = 4 AND re.end_node_id = nodes.id))
+row = db.select_one(%q(
+SELECT re.end_node_id, description FROM nodes, route_edges re WHERE re.edge_order = (SELECT MAX(re.edge_order) FROM route_edges re WHERE re.route_id = 13) AND re.route_id = 4 AND re.end_node_id = nodes.id))
+row
+db.select_all(%q(select current_node_id from current_trips))
+cn=db.select_all(%q(select current_node_id from current_trips))
+cn.flatten
+cn.flatten.join ","
+db.do("update current_trips set current_node=0")
+db.do("update current_trips set current_node_id=0")
+db.do("update current_trips set current_node_id=8 where id=1")
+db.connected?
+db.ping
+db.select_one("select current_node_id from current_trips where trip=16")
+db.select_one("select current_node_id from current_trips where trip_id=16")
+db.select_one("select coalesce(current_node_id,0) from current_trips where trip_id=16")
+require 'chronic'
+Chronic.parse "2 fridays from now"
+Chronic.parse "2 fridays from today"
+Chronic.parse "2 months from today"
+Chronic.parse "2 months from now"
+Chronic.parse "the day after tomorrow"
+Chronic.parse "2 weeks from now"
+Chronic.parse "2 weeks ago"
+Chronic.parse "august 26 till now"
+Chronic.parse "next thursay"
+Chronic.parse "next thursday"
+Chronic.parse "next friday"
+Chronic.parse "next 2 fridays"
+Chronic.parse "tomorrow at 2pm"
+Chronic.parse "tomorrow at 2"
+Chronic.parse "tomorrow at 2am"
+Chronic.parse "tomorrow at 2am cst"
+require 'appscript'
+AS.app('finder').open
+AS.methods false
+AS.app.methods false
+AS.app.public_instance_methods
+AS.app('finder').run
+AS.app('finder').makekeyandorderfront
+AS.app('finder').make.front'
+'
+AS.app('finder').make.front
+f=AS.app 'finder'
+f.methods false
+f.methods.public_instance_methods
+f.open
+f.run
+f.reveal
+f.launch
+f.activate
+f.hide
+f.parameters make
+f.parameters reveal
+f.parameters "make"
+f.parameters "reveal"
+f.parameters "run"
+f.commands
+f.parameters "launch"
+f.parameters "close"
+f.parameters "find"
+f.find
+f.close
+f.open "~"
+f.open "/Users/jeff"
+f.open "/Users/jeff/"
+f.home.folders.name.get
+f.home.open
+ivu_code = ask("IVU_CODE? " {|c| c.validate = /V\d\d\d/}
+)
+ivu_code = ask("IVU_CODE? )" {|c| c.validate = /V\d\d\d/}
+asdf
+ivu_code = ask("IVU_CODE? ") {|c| c.validate = /V\d\d\d/}
+ivu_code
+require 'highline/import'
+choose do |menu|;menu.prompt = "please choose: ";menu.choice :thing1 {say "wtg"}; menu.choices :thing2, :no_ting {say "hmmm"};end
+choose do |menu|;menu.prompt = "please choose: ";menu.choice :thing1 {say "wtg"}; menu.choices :thing2, :nothing {say "hmmm"};end
+choose do |menu|;menu.prompt = "please choose: ";menu.choice(:thing1) {say "wtg"}; menu.choices(:thing2, :nothing) {say "hmmm"};end
+Time.now.strftime "%a"
+r=Time.parse "17:30"
+n=Time.now
+r-n
+d=r-n
+d.class
+d/60*60
+d/60*60*60
+Time.at d
+d1=Time.at d
+d1.strftime "%H:%M"
+r
+Time.at(d).strftime %H:%M
+Time.at(d).strftime "%H:%M"
+Time.now
+5700/60/60
+5700/60/60.0
+5700/60
+5700-(5700/60)
+5700-(5700/60*60)
+5700-(5700/60*60.0)
+5700-(5700/60.0*60)
+.58*60
+0.58*60
+d/60.0
+d/60.0/60
+d=r-Time.now
+Time.at(d).strftime "%H:%M:%S"
+d
+d/60.ceil
+(d/60).ceil
+(d/60/60).floor
+h=(d/60/60).floor
+d/60
+d/60.floor
+(d/60).floor
+(d/60).floor.class
+(d/60).floor.to_s
+(d/60).floor.to_s.class
+(3600/60).floor.to_s.class
+(3600/60).floor.to_s
+_
+ri
+ri Array
+def ri2 arg;puts `ri #{arg}`;end
+ri2 Array
+ri2 Array#[]
+ri2 Integer.to_s
+ri2 Integer::induced_from
+ri2 'Integer::induced_from'
+def ri2 arg;puts `ri -Tf ansi #{arg}`;end
+ri2 'Integer#ceil'
+ri2 'Integer#to_r'
+ri2 'Readline::HISTORY'
+Readline::HISTORY.methods false
+Readline::HISTORY.class
+Readline::HISTORY.each {|l| puts l}
+Readline::HISTORY.length
+require 'dbi'
+db.do("select * from current_trips")
+db.disconnect
+db=DBI.connect('DBI:Mysql:simulator_development','root','')
+db.select_all("select * from current_trips")
+db.select_all("select * from trips")
+include Readline
+Readline.methods false
+
+Readline.public_instance_methods
+Readline.public_methods
+Readline.public_methods false
+Readline.class_variables
+lines=Readline::HISTORY.to_a.reverse.uniq.reverse

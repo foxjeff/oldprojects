@@ -1,0 +1,93 @@
+# ---
+# - !ruby/object:Route
+      # name: EKM to TVM
+      # node_array: 
+                # - :EKM
+                # - :ALP
+                # - :KYM
+                # - :KLM
+                # - :TVM
+# - !ruby/object:Route
+      # name: TVM to EKM
+      # node_array: 
+                # - :TVM
+                # - :KLM
+                # - :KYM
+                # - :ALP
+                # - :EKM
+# - !ruby/object:Route
+      # name: ALP to KYM
+      # node_array: 
+                # - :ALP
+                # - :KYM
+- !arl.amrita.edu,2006/route
+  name: TVM to EKM
+  nodes: 
+            - 1:  :TVM
+            - 2:  :KLM
+            - 3:  :KYM
+            - 4:  :ALP
+            - 5:  :EKM
+  edges: 
+          1:
+            - :TVM
+            - :KLM
+            - tt: 2.5
+          2:
+            - :KLM
+            - :KYM
+            - tt: 2.5
+          3:
+            - :KYM
+            - :ALP
+            - tt: 2.5
+          4:
+            - :ALP
+            - :EKM
+            - tt: 2.5
+
+- !ruby/object:Route
+  name: TVM to ALP
+  nodes:
+            - 1:  :TVM
+            - 2:  :KLM
+            - 3:  :KYM
+            - 4:  :ALP
+  edges: 
+          1:
+            - :TVM
+            - :KLM
+            - tt: 2.5
+          2:
+            - :KLM
+            - :KYM
+            - tt: 2.5
+          3:
+            - :KYM
+            - :ALP
+            - tt: 2.5
+
+# - !ruby/object:Route
+      # name: KYM to ALP
+      # edge_array: 
+                # - 1:  :KYM
+                # - 2:  :ALP
+      # tt: 2.5
+# ---
+# edges:
+        # - 1: 
+            # - :TVM
+            # - :KLM
+            # - :duration: 3
+        # - 2:
+            # - :KLM
+            # - :KYN
+            # - :duration: 3
+        # - 3:
+            # - :KYN
+            # - :ALP
+            # - :duration: 3
+        # - 4:
+            # - :ALP
+            # - :EKM
+            # - :duration: 3

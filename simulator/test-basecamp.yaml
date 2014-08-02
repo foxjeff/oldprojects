@@ -1,0 +1,46 @@
+--- 
+- !arl.amrita.edu,2006/record 
+  hash: 
+    completed: true
+    responsible-party-type: Person
+    title: Dry run for Oct PRMC in Amritapuri
+    wants-notification: true
+    completer-id: 875303
+    created-on: 2006-09-22 04:41:13 Z
+    project-id: 625357
+    completed-on: 2006-10-27 18:13:03 Z
+    id: 1863819
+    creator-id: 875309
+    deadline: 2006-10-19
+    responsible-party-id: 875303
+  type: milestone
+- !arl.amrita.edu,2006/record 
+  hash: 
+    completed: true
+    responsible-party-type: Person
+    title: Third dry run for Oct PRMC in Kayankulam/Kollam or Ettimadai  campus(same place as Oct 30 PRMC)
+    wants-notification: false
+    completer-id: 875303
+    created-on: 2006-09-22 04:43:02 Z
+    project-id: 625357
+    completed-on: 2006-10-27 18:13:05 Z
+    id: 1863820
+    creator-id: 875309
+    deadline: 2006-10-25
+    responsible-party-id: 875303
+  type: milestone
+- !arl.amrita.edu,2006/record 
+  hash: 
+    completed: true
+    responsible-party-type: Person
+    title: October PRMC
+    wants-notification: true
+    completer-id: 875303
+    created-on: 2006-09-22 04:40:00 Z
+    project-id: 625357
+    completed-on: 2006-10-31 08:19:09 Z
+    id: 1863816
+    creator-id: 875309
+    deadline: 2006-10-30
+    responsible-party-id: 875303
+  type: milestone

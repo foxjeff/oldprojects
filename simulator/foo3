@@ -1,0 +1,40 @@
+tdcs: in create_control_session
+hello world, now accepting connections at ip: 127.0.0.1 on port: 9090
+it's now Mon Dec 04 17:16:52 IST 2006
+tdcs: CnC has connected to control port. #<TCPSocket:0x5e4be8>
+loaded: KYM to ALP
+in tdcs, loading scenario_file
+{"V001"=>#<Vehicle:0x5d9220 @next_node=nil, @current_node=nil, @previous_node=nil, @license="KL8-5692", @nodes=[{"tt"=>0, "name"=>"KYM", "code"=>"T003", "seq"=>1}, {"tt"=>50, "name"=>"ALP", "code"=>"T004", "seq"=>2}], @code="V001">, "V002"=>#<Vehicle:0x5d95e0 @next_node=nil, @current_node=nil, @previous_node=nil, @license="KL9-3041", @nodes=[{"tt"=>0, "name"=>"KYM", "code"=>"T003", "seq"=>1}, {"tt"=>50, "name"=>"ALP", "code"=>"T004", "seq"=>2}], @code="V002">}
+V002 has arrived at T003
+V001 has arrived at T003
+V002 has departed T003
+V001 has departed T003
+V002 has arrived at T004
+te @KLM_Bus_Station is online @849700012
+TGate @KYM_Bus_Station is online @849700012
+TGate @ALP_Bus_Station is online @849700012
+TGate @EKM_Bus_Station is online @849700012
+tgate: CnC has connected to control port. #<TCPSocket:0x6d4214>
+{"V002"=>"T003"}
+ivtu: create server for cnc
+ivtu: waiting for cnc to connect to control
+ivtu: CnC has connected to control port. #<TCPSocket:0x73d160>
+#<Simulator::IVTU:0x73cf94 @location_known="U", @license_number="KL9-3041}", @tgate_name="", @code="V002", @seq=1>
+#<Simulator::IVTU:0x73cddc @location_known="U", @license_number="KL8-5692}", @tgate_name="", @code="V001", @seq=1>
+{"V001"=>"T003", "V002"=>"T003"}
+{"V001"=>"T003", "V002"=>"T004"}
+V002 has arrived.
+V002 is waiting for response from TGate
+V002, response received: LAK T003 KYM_Bus_Station
+V002, starting LUP L sequence
+V002 is moving.
+V001 has arrived.
+V001 is waiting for response from TGate
+V001, response received: LAK T003 KYM_Bus_Station
+V001, starting LUP L sequence
+V001 is moving.
+V002 has arrived.
+V002 is waiting for response from TGate
+V002, response received: LAK T004 ALP_Bus_Station
+V002, starting LUP L sequence
+ivtu: CnC says to go away now...

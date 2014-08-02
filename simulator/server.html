@@ -1,0 +1,84 @@
+<!-- Generator: GNU source-highlight 2.1.2
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+  <style type="text/css">
+
+pre.codebox {
+  display: block;
+  background-color: black;
+  color: white;
+  font-family: sans-serif;
+  margin:.75em 0;
+  border:1px dotted #ccc;
+  border-width:1px 0;
+  padding:5px 15px;
+}
+  </style>
+<pre class='codebox'><tt><i><font color="#9A1900">#</font></i><i><font color="#9A1900">!/usr/bin/env ruby -w</font></i>
+<b><font color="#0000FF">module</font></b> Simulator
+	<b><font color="#000080">require</font></b> <font color="#FF0000">'socket'</font>
+	<b><font color="#000080">require</font></b> <font color="#FF0000">'rubygems'</font>
+	<b><font color="#000080">require</font></b> <font color="#FF0000">'highline/import'</font>
+
+	Port <font color="#990000">=</font> <font color="#993399">8080</font>
+	IP <font color="#990000">=</font> <font color="#FF0000">'127.0.0.1'</font>
+
+	<b><font color="#0000FF">class</font></b> Acceptor
+
+		<b><font color="#0000FF">include</font></b> Simulator
+		<b><font color="#0000FF">include</font></b> HighLine<font color="#990000">:</font><font color="#990000">:</font>SystemExtensions
+		<i><font color="#9A1900">#</font></i><i><font color="#9A1900">include Obserable</font></i>
+		
+		attr_accessor <font color="#990000">:</font>server_thread
+
+		<b><font color="#0000FF">def</font></b> accept
+			puts <font color="#FF0000">"hello world, now accepting connections at ip: #{IP} on port: #{Port}"</font><font color="#990000">,</font> <font color="#FF0000">"it's now #{Time.now}"</font>
+
+			<b><font color="#0000FF">begin</font></b>
+				<font color="#009900">@server_thread</font> <font color="#990000">=</font> Hash<font color="#990000">.</font>new<font color="#990000">;</font>
+				Signal<font color="#990000">.</font><b><font color="#000000">trap</font></b><font color="#990000">(</font><font color="#FF0000">"INT"</font><font color="#990000">)</font> <b><font color="#0000FF">do</font></b>
+						Thread<font color="#990000">.</font>new <font color="#FF0000">{</font> handle_command_input <font color="#FF0000">}</font>
+					<b><font color="#0000FF">end</font></b>
+				server <font color="#990000">=</font> TCPServer<font color="#990000">.</font><b><font color="#000000">new</font></b><font color="#990000">(</font>IP<font color="#990000">,</font> Port<font color="#990000">)</font> 
+				<b><font color="#0000FF">while</font></b> <font color="#990000">(</font>session <font color="#990000">=</font> server<font color="#990000">.</font>accept<font color="#990000">)</font> 
+					<font color="#009900">@server_thread</font><font color="#990000">[</font>session<font color="#990000">]</font> <font color="#990000">=</font> Thread<font color="#990000">.</font>new <font color="#FF0000">{</font> <b><font color="#000000">handle_session</font></b><font color="#990000">(</font>session<font color="#990000">,</font> <b><font color="#0000FF">self</font></b><font color="#990000">)</font> <font color="#FF0000">}</font> 
+					puts <font color="#FF0000">"starting new session: #{session}"</font><font color="#990000">,</font> <font color="#FF0000">"there are currently #{@server_thread.size} sessions"</font>
+				<b><font color="#0000FF">end</font></b> 
+			<b><font color="#0000FF">rescue</font></b>
+				puts <font color="#FF0000">"Error: #{$!}"</font>
+			<b><font color="#0000FF">end</font></b>
+		<b><font color="#0000FF">end</font></b>
+
+		<b><font color="#0000FF">def</font></b> handle_command_input
+			<b><font color="#0000FF">while</font></b> <font color="#990000">(</font> command <font color="#990000">=</font> get_character <font color="#990000">)</font>
+				<b><font color="#0000FF">case</font></b> command<font color="#990000">.</font>chr
+					<b><font color="#0000FF">when</font></b> <font color="#FF0000">/q/</font>
+						puts <font color="#FF0000">"going away now..."</font>
+						<font color="#009900">@server_thread</font><font color="#990000">.</font>each <font color="#FF0000">{</font><font color="#990000">|</font>s<font color="#990000">,</font> thread<font color="#990000">|</font> thread<font color="#990000">.</font>join<font color="#FF0000">}</font>
+						<b><font color="#000000">exit</font></b><font color="#990000">(</font><font color="#993399">0</font><font color="#990000">)</font>
+					<b><font color="#0000FF">when</font></b> <font color="#FF0000">/\?/</font>
+						puts <font color="#FF0000">"there are currently #{@server_thread.size} sessions"</font><font color="#990000">,</font> <font color="#009900">@server_thread</font><font color="#990000">.</font>inspect
+					<b><font color="#0000FF">else</font></b>
+						puts <font color="#FF0000">"hello"</font>
+				<b><font color="#0000FF">end</font></b>
+			<b><font color="#0000FF">end</font></b>
+		<b><font color="#0000FF">end</font></b>
+
+		<b><font color="#0000FF">def</font></b> <b><font color="#000000">handle_session</font></b><font color="#990000">(</font>session<font color="#990000">,</font> observer<font color="#990000">)</font>
+			<b><font color="#0000FF">while</font></b> <font color="#990000">(</font> request <font color="#990000">=</font> session<font color="#990000">.</font>gets <font color="#990000">)</font>
+				session<font color="#990000">.</font>print <font color="#FF0000">"Request: #{request}"</font> 
+				session<font color="#990000">.</font>print <font color="#FF0000">"hello from #{self}"</font>
+			<b><font color="#0000FF">end</font></b>
+			<font color="#009900">@server_thread</font><font color="#990000">.</font>reject<font color="#990000">!</font> <font color="#FF0000">{</font><font color="#990000">|</font>s<font color="#990000">,</font>t<font color="#990000">|</font> t <font color="#990000">=</font><font color="#990000">=</font> Thread<font color="#990000">.</font>current<font color="#FF0000">}</font>
+			session<font color="#990000">.</font>close 
+			puts <font color="#FF0000">"session dropped, there are now #{@server_thread.size} sessions"</font>
+			Thread<font color="#990000">.</font>exit
+		<b><font color="#0000FF">end</font></b>
+
+	<b><font color="#0000FF">end</font></b>
+<b><font color="#0000FF">end</font></b>
+
+a <font color="#990000">=</font> Simulator<font color="#990000">:</font><font color="#990000">:</font>Acceptor<font color="#990000">.</font>new
+a<font color="#990000">.</font>accept
+</tt></pre>

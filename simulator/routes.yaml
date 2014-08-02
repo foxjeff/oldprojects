@@ -1,0 +1,62 @@
+---
+- !arl.amrita.edu,2006/route
+  name: TVM to EKM
+  nodes: 
+            - 1:  :TVM
+            - 2:  :KLM
+            - 3:  :KYM
+            - 4:  :ALP
+            - 5:  :EKM
+  edges: 
+          1:
+            - :TVM
+            - :KLM
+            - tt: 2.5
+          2:
+            - :KLM
+            - :KYM
+            - tt: 2.5
+          3:
+            - :KYM
+            - :ALP
+            - tt: 2.5
+          4:
+            - :ALP
+            - :EKM
+            - tt: 2.5
+  vehicles:
+            -
+              id: V001
+              time_of_departure:  10:00
+            -
+              id:  V002
+              time_of_departure:  10:00
+
+
+- !ruby/object:Route
+  name: TVM to ALP
+  nodes:
+            - 1:  :TVM
+            - 2:  :KLM
+            - 3:  :KYM
+            - 4:  :ALP
+  edges: 
+          1:
+            - :TVM
+            - :KLM
+            - tt: 2.5
+          2:
+            - :KLM
+            - :KYM
+            - tt: 2.5
+          3:
+            - :KYM
+            - :ALP
+            - tt: 2.5
+
+# - !ruby/object:Route
+      # name: KYM to ALP
+      # edge_array: 
+                # - 1:  :KYM
+                # - 2:  :ALP
+      # tt: 2.5

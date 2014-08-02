@@ -1,0 +1,286 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>ITEWS Simulation Time Tables</title>
+
+<script type="text/javascript" src="/Users/jeff/Sites/javascript/prototype.js"></script>
+<script type="text/javascript" src="/Users/jeff/Sites/javascript/scriptaculous.js"></script>
+<script type="text/javascript">
+
+function test()
+{
+	var a = ['adsf','asdf','3423'];
+	var b = "asdf,erw,ghj,dfg,";
+	alert(b + $A(b.split(",")).inspect());
+	alert(a);
+	alert($A(a));
+}
+function ajax_function()
+{
+	automatic_updater = new Ajax.PeriodicalUpdater(
+			{ //success: 'bar',
+				failure: 'foo' },
+			//"../ruby/simulator_data.rb",
+			//"../ruby/tdcs_handler.rb",
+			"http://localhost:2000/simulator",
+			{
+				decay: 1,
+				frequency: 50,
+				asynchronous: true,
+				method: 'post',
+				parameters: 'name=yapooi',
+				onSuccess:function(request)
+					{
+						var schedule = request.responseText.split(",");
+						//var schedule2 = $A(schedule);
+						//alert($H($(schedule2[0]))).inspect();
+						for (var i = 0; i < schedule.length - 1; i = i + 2)
+							{
+								//new Effect.Highlight($(schedule2[i]));
+							//alert($H(schedule2[i]).inspect() + " " + schedule2[i+1]);
+								$(schedule[i]).innerHTML = "asd"; //schedule[i+1];
+							//new Insertion.Bottom($('bar'),schedule[i]);
+							//new Insertion.Bottom($('bar'),schedule[i+1]);
+							}
+						//$(schedule[2]).innerHTML = schedule[1]; //schedule[i+1];
+					},
+				onFailure: function(request)
+					{
+						//alert("Stuff DIDN'T Happen, alert the programmers: " + request.responseText);
+					},
+				onException: function(request)
+					{
+						//alert("Stuff really DIDN'T Happen, alert the programmers: " + request.responseText);
+					}
+			});
+}
+</script>
+
+<style type="text/css">
+body {
+	color: white;
+  background:  black;
+}
+.buses, .jfTableCell1, .jfTableCell2, .jfTableCell3 {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:16px;
+	color: yellow;
+	padding:3px 3px 3px 3px;
+	border: 1px solid red;
+	cursor:default;
+}
+.bus1, .bus2, .bus3 {
+	color: orange;
+	border: 1px solid;
+}
+.table_headers {
+	background: grey;
+}
+h3 {
+	background: grey;
+	color:  darkblue;
+}
+.jfTableCell1 {
+	position:absolute;
+	top:10px;
+	left:10px;
+	width:340px;
+}
+.jfTableCell2 {
+	margin-left: 360px;
+	margin-right: 350px;
+}
+.jfTableCell3 {
+	position:absolute;
+	top:0px;
+	right:-10px;
+	width:340px;
+}
+.container {
+	position: absolute;
+	top: 50px;
+	left: 10px;
+	width: 1024px;
+	height: 768px;
+}
+.after {
+	position: relative;
+	top: 550px;
+	left: 40px;
+}
+.bus1 {
+	position: absolute;
+	top: 350px;
+	left: 40px;
+	width:260px;
+}
+.bus2 {
+	position: absolute;
+	top: 350px;
+	left: 380px;
+	width:260px;
+}
+.bus3 {
+	position: absolute;
+	top: 350px;
+	left: 725px;
+	width:260px;
+}
+#id1 {
+	position: absolute;
+	padding:3px 3px 3px 3px;
+	margin: 10px;
+	top:  -25px;
+	left: 300px;
+}
+.my_header {
+	color: blue;
+}
+</style>
+</head>
+<body>
+	<div id="id1">
+	<h1 align=center class="my_header">ITEWS Simulation Time Tables</h1>
+	</div>
+<div class="container">
+	<div class="jfTableCell1">
+		<h3 align=center>Trivandram Station</h3>
+	  <table border='1' cellpadding='2' align='center' style='width:600;text-align:center'>
+            <tr class="table_headers">
+                     <th>Bus</th>
+                     <th>License</th>
+                     <th>Arrival</th>
+                     <th>Departure</th>
+            </tr>
+            <tr>
+                     <td>Fast Bus 1</td>
+                     <td>KL5-2345</td>
+										 <td><span id="T001_V001_arrival"></span></td>
+										 <td><span id="T001_V001_departure"></span></td>
+            </tr>
+						<tr>
+                     <td>Really Fast Bus 1</td>
+                     <td>KL5-3904</td>
+										 <td><span id="T001_V002_arrival"></span></td>
+										 <td><span id="T001_V002_departure"></span></td>
+            </tr>
+						<tr>
+                     <td>Fast Bus 3</td>
+                     <td>KL5-3893</td>
+										 <td><span id="T001_V003_arrival"></span></td>
+										 <td><span id="T001_V003_departure"></span></td>
+            </tr>
+     </table>
+	</div>
+	<div class="jfTableCell2">
+		<h3 align=center>Kollam Station</h3>
+		<table border='1' cellpadding='2' align='center' style='width:600;text-align:center'>
+      <tr class="table_headers">
+                     <th>Bus</th>
+                     <th>License</th>
+                     <th>Arrival</th>
+                     <th>Departure</th>
+             </tr>
+             <tr>
+                     <td>Fast Bus 1</td>
+                     <td>KL5-2345</td>
+										 <td><span id="T002_V001_arrival"></span></td>
+										 <td><span id="T002_V001_departure"></span></td>
+             </tr><tr>
+                     <td>Really Fast Bus 1</td>
+                     <td>KL5-3904</td>
+										 <td><span id="T002_V002_arrival"></span></td>
+										 <td><span id="T002_V002_departure"></span></td>
+             </tr>
+						<tr>
+                     <td>Fast Bus 3</td>
+                     <td>KL5-3893</td>
+										 <td><span id="T002_V003_arrival"></span></td>
+										 <td><span id="T002_V003_departure"></span></td>
+            </tr>
+     </table>
+	</div>
+	<div class="jfTableCell3">
+			<h3 align=center>Kayankulam Station</h3>
+		  <table border='1' cellpadding='2' align='center' style='width:600;text-align:center'>
+        <tr class="table_headers">
+                       <th>Bus</th>
+                       <th>License</th>
+                       <th>Arrival</th>
+                       <th>Departure</th>
+               </tr>
+               <tr>
+                       <td>Fast Bus 1</td>
+                       <td>KL5_2345</td>
+											 <td><span id="T003_V001_arrival"></span></td>
+											 <td><span id="T003_V001_departure"></span></td>
+               </tr><tr>
+                       <td>Really Fast Bus 1</td>
+                       <td>KL5-3904</td>
+											 <td><span id="T003_V002_arrival"></span></td>
+											 <td><span id="T003_V002_departure"></span></td>
+               </tr>
+							<tr>
+	                     <td>Fast Bus 3</td>
+	                     <td>KL5-3893</td>
+											 <td><span id="T003_V003_arrival"></span></td>
+											 <td><span id="T003_v003_departure"></span></td>
+	            </tr>
+       </table>
+		</div>
+		<div class="buses bus1">
+			<h3 align=center>Fast Bus 1</h3>
+		  <table width=100% border='1' cellpadding='2' align='center' style='width:300;text-align:center'>
+        <tr class="table_headers">
+          <th>Status</th>
+          <th>Station</th>
+          <th>Time</th>
+        </tr>
+				<tr>
+           <td id="v001_status"></td>
+           <td id="v001_station"></td>
+           <td id="v001_time"></td>
+       </tr>
+	    </table>
+		</div>
+		<div class="buses bus2">
+			<h3 align=center>Really Fast Bus 1</h3>
+		  <table width=100% border='1' cellpadding='2' align='center' style='width:300;text-align:center'>
+        <tr class="table_headers">
+          <th>Status</th>
+          <th>Station</th>
+          <th>Time</th>
+        </tr>
+        <tr>
+           <td id="v002_status"></td>
+           <td id="v002_station"></td>
+           <td id="v002_time"></td>
+        </tr
+	    </table>
+		</div>
+		<div class="buses bus3">
+			<h3 align=center>Fast Bus 3</h3>
+		  <table width=100%  border='1' cellpadding='2' align='center' style='width:300;text-align:center'>
+        <tr class="table_headers">
+          <th>Status</th>
+          <th>Station</th>
+          <th>Time</th>
+        </tr>
+        <tr>
+           <td id="v003_status"></td>
+           <td id="v003_station"></td>
+           <td id="v003_time"></td>
+        </tr
+	    </table>
+		</div>
+</div>
+<div class="after">
+<br />
+<span id='foo'>Updates</span>
+<input type='button' onclick='ajax_function()' value='Show Sim Data'/>
+<input type='button' onclick='javascript:automatic_updater.stop()' value='Stop Updates'/>
+	<span id='bar'></span>
+</div>
+</body>
+</html>

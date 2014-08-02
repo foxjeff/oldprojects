@@ -1,0 +1,1036 @@
+let SessionLoad = 1
+if &cp | set nocp | endif
+let s:cpo_save=&cpo
+set cpo&vim
+map! <S-Insert> <MiddleMouse>
+imap <silent> <S-F7> <S-F7>a
+imap <silent> <F7> \r a
+cmap <D-g> <D-g>
+imap <D-g> <D-g>
+cmap <D-f> <D-f>
+imap <D-f> <D-f>
+cmap <D-a> <D-a>
+imap <D-a> <D-a>
+cnoremap <D-v> +
+cnoremap <D-c> 
+cmap <D-z> <D-z>
+imap <D-z> <D-z>
+cmap <S-D-s> <D-s>
+imap <S-D-s> <D-s>
+cmap <D-s> <D-s>
+imap <D-s> <D-s>
+cmap <D-w> <D-w>
+imap <D-w> <D-w>
+cmap <D-o> <D-o>
+imap <D-o> <D-o>
+cmap <D-n> <D-n>
+imap <D-n> <D-n>
+nnoremap <silent>  :YRReplace '1', 'p'
+nnoremap <silent>  :YRReplace '-1', 'P'
+nmap   <PageDown>
+map , :bprevi
+vnoremap < <gv
+vnoremap > >gv
+nnoremap <silent> D :YRYankCount 'D'
+nmap K <Plug>ManPageView
+vnoremap <silent> P :YRPaste 'P', 'v'
+nnoremap <silent> P :YRPaste 'P'
+nnoremap <silent> Y :YRYankCount 'Y'
+vmap [% [%m'gv``
+nmap <silent> \bb :call BufferList()
+map <silent> \v 
+nmap \sv <Plug>SVNVimDiff
+nmap \su <Plug>SVNUpdate
+nmap \sr <Plug>SVNResolved
+nmap \sp <Plug>SVNPropedit
+nmap \si <Plug>SVNInfo
+nmap \ss <Plug>SVNStatus
+nmap \sw <Plug>SVNReview
+nmap \sq <Plug>SVNRevert
+nmap \sl <Plug>SVNLog
+nmap \sg <Plug>SVNGotoOriginal
+nmap \sd <Plug>SVNDiff
+nmap \sc <Plug>SVNCommit
+nmap \sG <Plug>SVNClearAndGotoOriginal
+nmap \sn <Plug>SVNAnnotate
+nmap \sa <Plug>SVNAdd
+map \ri :call RiCurrentWord()
+map \rwp <Plug>RestoreWinPosn
+map \swp <Plug>SaveWinPosn
+vmap <silent> \cy "0ygv\cc
+nmap <silent> \cy "0Y\cc
+vmap <silent> \Htd :<BS><BS><BS>ma'>\Htd
+vmap <silent> \tt :<BS><BS><BS>ma'>\tt
+vmap <silent> \tp@ :<BS><BS><BS>ma'>\tp@
+vmap <silent> \tsq :<BS><BS><BS>ma'>\tsq
+vmap <silent> \tsp :<BS><BS><BS>ma'>\tsp
+vmap <silent> \tml :<BS><BS><BS>ma'>\tml
+vmap <silent> \tab :<BS><BS><BS>ma'>\tab
+vmap <silent> \t@ :<BS><BS><BS>ma'>\t@
+vmap <silent> \t? :<BS><BS><BS>ma'>\t?
+vmap <silent> \t= :<BS><BS><BS>ma'>\t=
+vmap <silent> \t< :<BS><BS><BS>ma'>\t<
+vmap <silent> \t; :<BS><BS><BS>ma'>\t;
+vmap <silent> \t: :<BS><BS><BS>ma'>\t:
+vmap <silent> \ts, :<BS><BS><BS>ma'>\ts,
+vmap <silent> \t, :<BS><BS><BS>ma'>\t,
+vmap <silent> \t| :<BS><BS><BS>ma'>\t|
+vmap <silent> \anum :B s/\(\d\)\s\+\(-\=[.,]\=\d\)/\1@\2/ge:AlignCtrl mp0P0gv:Align [.,@]:'<,'>s/\([-0-9.,]*\)\(\s\+\)\([.,]\)/\2\1\3/ge:'<,'>s/@/ /ge
+vmap <silent> \afnc :<BS><BS><BS>ma'>\afnc
+vmap <silent> \adef :<BS><BS><BS>ma'>\adef
+vmap <silent> \adec :<BS><BS><BS>ma'>\adec
+vmap <silent> \ascom :<BS><BS><BS>ma'>\ascom
+vmap <silent> \aocom :<BS><BS><BS>ma'>\aocom
+vmap <silent> \acom :<BS><BS><BS>ma'>\acom
+vmap <silent> \abox :<BS><BS><BS>ma'>\abox
+vmap <silent> \a= :<BS><BS><BS>ma'>\a=
+vmap <silent> \a< :<BS><BS><BS>ma'>\a<
+vmap <silent> \a, :<BS><BS><BS>ma'>\a,
+vmap <silent> \a? :<BS><BS><BS>ma'>\a?
+vmap <silent> \Tsp :<BS><BS><BS>ma'>\Tsp
+vmap <silent> \T@ :<BS><BS><BS>ma'>\T@
+vmap <silent> \T= :<BS><BS><BS>ma'>\T=
+vmap <silent> \T< :<BS><BS><BS>ma'>\T<
+vmap <silent> \T: :<BS><BS><BS>ma'>\T:
+vmap <silent> \Ts, :<BS><BS><BS>ma'>\Ts,
+vmap <silent> \T, :<BS><BS><BS>ma'>\T,
+vmap <silent> \T| :<BS><BS><BS>ma'>\T|
+map <silent> \tdW@ :AlignCtrl v ^\s*/[/*]:AlignCtrl mWp1P1=l @:'a,.Align
+map <silent> \tW@ :AlignCtrl mWp1P1=l @:'a,.Align
+nmap <silent> \t@ :AlignCtrl mIp1P1=l @:'a,.Align
+omap <silent> \t@ :AlignCtrl mIp1P1=l @:'a,.Align
+nmap <silent> \aocom :AlignPush:AlignCtrl g /[*/]\acom:AlignPop
+omap <silent> \aocom :AlignPush:AlignCtrl g /[*/]\acom:AlignPop
+map <silent> \f :WinFullScreen
+map <silent> \bw :bw
+map <silent> \ww :w
+map <silent> \wb l:bw
+vmap <silent> \r :call Ruby_eval_vsplit()
+map \bc :Bclose
+vmap ]% ]%m'gv``
+vmap a% [%v]%
+vnoremap <silent> d :YRDeleteRange 'v'
+nnoremap <silent> dgg :YRYankCount 'dgg'
+nnoremap <silent> dG :YRYankCount 'dG'
+nnoremap <silent> d$ :YRYankCount 'd$'
+nnoremap <silent> daw :YRYankCount 'daw'
+nnoremap <silent> diw :YRYankCount 'diw'
+nnoremap <silent> dE :YRYankCount 'dE'
+nnoremap <silent> de :YRYankCount 'de'
+nnoremap <silent> dw :YRYankCount 'dw'
+nnoremap <silent> dd :YRYankCount 'dd'
+nmap gx <Plug>NetrwBrowseX
+nnoremap <silent> gp :YRPaste 'gp'
+nnoremap <silent> gP :YRPaste 'gP'
+vnoremap <silent> p :YRPaste 'p', 'v'
+nnoremap <silent> p :YRPaste 'p'
+map qq :q
+vnoremap <silent> y :YRYankRange 'v'
+nnoremap <silent> ygg :YRYankCount 'ygg'
+nnoremap <silent> yG :YRYankCount 'yG'
+nnoremap <silent> y$ :YRYankCount 'y$'
+nnoremap <silent> yaw :YRYankCount 'yaw'
+nnoremap <silent> yiw :YRYankCount 'yiw'
+nnoremap <silent> yE :YRYankCount 'yE'
+nnoremap <silent> ye :YRYankCount 'ye'
+nnoremap <silent> yw :YRYankCount 'yw'
+nnoremap <silent> yy :YRYankCount 'yy'
+nmap <F5> :buffers
+nmap <S-Down> 
+nmap <S-Up> 
+map <S-Insert> <MiddleMouse>
+nnoremap <silent> <Plug>NetrwBrowseX :call netrw#NetBrowseX(expand("<cWORD>"),0)
+nnoremap <silent> <Plug>SVNCommitDiff :SVNCommitDiff
+nnoremap <silent> <Plug>SVNVimDiff :SVNVimDiff
+nnoremap <silent> <Plug>SVNUpdate :SVNUpdate
+nnoremap <silent> <Plug>SVNResolved :SVNResolved
+nnoremap <silent> <Plug>SVNPropedit :SVNPropedit
+nnoremap <silent> <Plug>SVNInfo :SVNInfo
+nnoremap <silent> <Plug>SVNStatus :SVNStatus
+nnoremap <silent> <Plug>SVNReview :SVNReview
+nnoremap <silent> <Plug>SVNRevert :SVNRevert
+nnoremap <silent> <Plug>SVNLog :SVNLog
+nnoremap <silent> <Plug>SVNClearAndGotoOriginal :SVNGotoOriginal!
+nnoremap <silent> <Plug>SVNGotoOriginal :SVNGotoOriginal
+nnoremap <silent> <Plug>SVNDiff :SVNDiff
+nnoremap <silent> <Plug>SVNCommit :SVNCommit
+nnoremap <silent> <Plug>SVNAnnotate :SVNAnnotate
+nnoremap <silent> <Plug>SVNAdd :SVNAdd
+nmap <silent> <Plug>RestoreWinPosn :call RestoreWinPosn()
+nmap <silent> <Plug>SaveWinPosn :call SaveWinPosn()
+nmap <SNR>15_WE <Plug>AlignMapsWrapperEnd
+nmap <SNR>15_WS <Plug>AlignMapsWrapperStart
+nmap <silent> <F7> mzggVG\r`z
+vnoremap <silent> <F5> :buffers
+onoremap <silent> <F5> :buffers
+nmap <F3> :nohlsearch
+nmap <F2> gt
+nmap <F1> gT
+omap <D-g> <D-g>
+vmap <D-g> <D-g>
+nnoremap <D-g> n
+omap <D-f> <D-f>
+vmap <D-f> <D-f>
+nnoremap <D-f> /
+omap <D-a> <D-a>
+vmap <D-a> <D-a>
+nnoremap <silent> <D-a> :if &slm != ""|exe ":norm gggHG"| else|exe ":norm ggVG"|endif
+omap <D-z> <D-z>
+vmap <D-z> <D-z>gv
+nnoremap <D-z> u
+omap <S-D-s> <D-s>
+vmap <S-D-s> <D-s>gv
+nnoremap <S-D-s> :browse confirm saveas
+omap <D-s> <D-s>
+vmap <D-s> <D-s>gv
+nnoremap <silent> <D-s> :if expand("%") == ""|browse confirm w| else|confirm w|endif
+omap <D-w> <D-w>
+vmap <D-w> <D-w>gv
+nnoremap <silent> <D-w> :if winheight(2) < 0 | confirm enew | else | confirm close | endif
+omap <D-o> <D-o>
+vmap <D-o> <D-o>gv
+nnoremap <D-o> :browse confirm e
+omap <D-n> <D-n>
+vmap <D-n> <D-n>gv
+nnoremap <D-n> :confirm enew
+vmap <BS> "-d
+vnoremap <D-x> "+x
+vnoremap <D-c> "+y
+nnoremap <D-v> "+gP
+imap  <Del>
+imap "" ""<Left>
+imap '' ''<Left>
+imap (( ()<Left>
+imap << <><Left>
+imap [[ []<Left>
+cnoremap \\ e ~/.
+cnoremap \v e ~/.vim/
+cnoremap \h e ~/
+imap jj 
+imap kk u
+imap {{ {}<Left>
+let &cpo=s:cpo_save
+unlet s:cpo_save
+set antialias
+set autoindent
+set background=dark
+set backspace=2
+set cmdheight=2
+set directory=/tmp
+set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,ve:ver35-Cursor-blinkon0,o:hor50-Cursor-blinkon0,i-ci:ver25-Cursor/lCursor-blinkon0,r-cr:hor20-Cursor/lCursor-blinkon0,sm:block-Cursor-blinkon0
+set guifont=Monaco::h13
+set guioptions=agimrLt
+set noguipty
+set helplang=en
+set hidden
+set history=500
+set hlsearch
+set ignorecase
+set incsearch
+set laststatus=2
+set nomacatsui
+set mouse=a
+set pastetoggle=<F4>
+set ruler
+set scrolloff=9999
+set shiftwidth=2
+set showmatch
+set smartcase
+set smartindent
+set softtabstop=2
+set statusline=%<%f%h%m%r\ \ %=%l,%c%V\ %P
+set tabstop=2
+set wildignore=*.0,*.class
+set window=60
+let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
+let v:this_session=expand("<sfile>:p")
+silent only
+cd ~/work/ITEWS/simulator
+if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
+  let s:wipebuf = bufnr('%')
+endif
+set shortmess=aoO
+badd +1 CommandAndControl.rb
+badd +2 simulator.rb
+badd +1 ~/Sites/ruby/tdcs_simulator.rb
+badd +1 tgate_simulator.rb
+badd +1 ivtu_simulator.rb
+badd +0 handle_ap.rb
+badd +1 scenarios.rb
+silent! argdel *
+edit simulator.rb
+set splitbelow splitright
+set nosplitbelow
+set nosplitright
+wincmd t
+set winheight=1 winwidth=1
+argglobal
+setlocal noarabic
+setlocal autoindent
+setlocal autoread
+setlocal nobinary
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal nocindent
+setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+setlocal comments=:#
+setlocal commentstring=#\ %s
+setlocal complete=.,w,b,u,t,i
+setlocal completefunc=
+setlocal nocopyindent
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal define=^\\s*#\\s*define
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal noexpandtab
+if &filetype != 'ruby'
+setlocal filetype=ruby
+endif
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+setlocal foldmethod=manual
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=croql
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=0
+setlocal include=^\\s*\\<\\(load\\|w*require\\)\\>
+setlocal includeexpr=substitute(substitute(v:fname,'::','/','g'),'$','.rb','')
+setlocal indentexpr=GetRubyIndent()
+setlocal indentkeys=0{,0},0),0],!^F,o,O,e,=end,=elsif,=when,=ensure,=rescue,==begin,==end
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255
+setlocal keymap=
+setlocal keywordprg=
+setlocal nolinebreak
+setlocal nolisp
+setlocal nolist
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal modeline
+setlocal modifiable
+setlocal nrformats=octal,hex
+set number
+setlocal number
+setlocal numberwidth=4
+setlocal omnifunc=rubycomplete#Complete
+setlocal path=.,/usr/local/lib/ruby/site_ruby/1.8,/usr/local/lib/ruby/site_ruby/1.8/i686-darwin8.6.2,/usr/local/lib/ruby/site_ruby,/usr/local/lib/ruby/1.8,/usr/local/lib/ruby/1.8/i686-darwin8.6.2,,/usr/local/lib/ruby/gems/1.8/gems/RedCloth-3.0.4/lib,/usr/local/lib/ruby/gems/1.8/gems/SqlStatement-1.0.0/lib,/usr/local/lib/ruby/gems/1.8/gems/THERuSH-0.9/lib,/usr/local/lib/ruby/gems/1.8/gems/actionmailer-1.2.1/lib,/usr/local/lib/ruby/gems/1.8/gems/actionmailer-1.2.5/lib,/usr/local/lib/ruby/gems/1.8/gems/actionpack-1.12.1/lib,/usr/local/lib/ruby/gems/1.8/gems/actionpack-1.12.5/lib,/usr/local/lib/ruby/gems/1.8/gems/actionwebservice-1.1.2/lib,/usr/local/lib/ruby/gems/1.8/gems/actionwebservice-1.1.6/lib,/usr/local/lib/ruby/gems/1.8/gems/activerecord-1.14.2/lib,/usr/local/lib/ruby/gems/1.8/gems/activerecord-1.14.4/lib,/usr/local/lib/ruby/gems/1.8/gems/activesupport-1.3.1/lib,/usr/local/lib/ruby/gems/1.8/gems/amrita2-1.9.6/lib,/usr/local/lib/ruby/gems/1.8/gems/builder-2.0.0/lib,/usr/local/lib/ruby/gems/1.8/gems/cheat-1.0.2/lib,/usr
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal shiftwidth=2
+setlocal noshortname
+setlocal nosmartindent
+setlocal softtabstop=2
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal statusline=
+setlocal suffixesadd=.rb
+setlocal swapfile
+setlocal synmaxcol=3000
+if &syntax != 'ruby'
+setlocal syntax=ruby
+endif
+setlocal tabstop=2
+setlocal tags=
+setlocal textwidth=0
+setlocal thesaurus=
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+silent! normal! zE
+let s:l = 2 - ((1 * winheight(0) + 28) / 57)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+2
+normal! 0
+tabnew
+edit scenarios.rb
+set splitbelow splitright
+set nosplitbelow
+set nosplitright
+wincmd t
+set winheight=1 winwidth=1
+argglobal
+setlocal noarabic
+setlocal autoindent
+setlocal autoread
+setlocal nobinary
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal nocindent
+setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+setlocal comments=:#
+setlocal commentstring=#\ %s
+setlocal complete=.,w,b,u,t,i
+setlocal completefunc=
+setlocal nocopyindent
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal define=^\\s*#\\s*define
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal noexpandtab
+if &filetype != 'ruby'
+setlocal filetype=ruby
+endif
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+setlocal foldmethod=manual
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=croql
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=0
+setlocal include=^\\s*\\<\\(load\\|w*require\\)\\>
+setlocal includeexpr=substitute(substitute(v:fname,'::','/','g'),'$','.rb','')
+setlocal indentexpr=GetRubyIndent()
+setlocal indentkeys=0{,0},0),0],!^F,o,O,e,=end,=elsif,=when,=ensure,=rescue,==begin,==end
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255
+setlocal keymap=
+setlocal keywordprg=
+setlocal nolinebreak
+setlocal nolisp
+setlocal nolist
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal modeline
+setlocal modifiable
+setlocal nrformats=octal,hex
+set number
+setlocal number
+setlocal numberwidth=4
+setlocal omnifunc=rubycomplete#Complete
+setlocal path=.,/usr/local/lib/ruby/site_ruby/1.8,/usr/local/lib/ruby/site_ruby/1.8/i686-darwin8.6.2,/usr/local/lib/ruby/site_ruby,/usr/local/lib/ruby/1.8,/usr/local/lib/ruby/1.8/i686-darwin8.6.2,,/usr/local/lib/ruby/gems/1.8/gems/RedCloth-3.0.4/lib,/usr/local/lib/ruby/gems/1.8/gems/SqlStatement-1.0.0/lib,/usr/local/lib/ruby/gems/1.8/gems/THERuSH-0.9/lib,/usr/local/lib/ruby/gems/1.8/gems/actionmailer-1.2.1/lib,/usr/local/lib/ruby/gems/1.8/gems/actionmailer-1.2.5/lib,/usr/local/lib/ruby/gems/1.8/gems/actionpack-1.12.1/lib,/usr/local/lib/ruby/gems/1.8/gems/actionpack-1.12.5/lib,/usr/local/lib/ruby/gems/1.8/gems/actionwebservice-1.1.2/lib,/usr/local/lib/ruby/gems/1.8/gems/actionwebservice-1.1.6/lib,/usr/local/lib/ruby/gems/1.8/gems/activerecord-1.14.2/lib,/usr/local/lib/ruby/gems/1.8/gems/activerecord-1.14.4/lib,/usr/local/lib/ruby/gems/1.8/gems/activesupport-1.3.1/lib,/usr/local/lib/ruby/gems/1.8/gems/amrita2-1.9.6/lib,/usr/local/lib/ruby/gems/1.8/gems/builder-2.0.0/lib,/usr/local/lib/ruby/gems/1.8/gems/cheat-1.0.2/lib,/usr
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal shiftwidth=2
+setlocal noshortname
+setlocal nosmartindent
+setlocal softtabstop=2
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal statusline=
+setlocal suffixesadd=.rb
+setlocal swapfile
+setlocal synmaxcol=3000
+if &syntax != 'ruby'
+setlocal syntax=ruby
+endif
+setlocal tabstop=2
+setlocal tags=
+setlocal textwidth=0
+setlocal thesaurus=
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+silent! normal! zE
+let s:l = 1 - ((0 * winheight(0) + 28) / 57)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+1
+normal! 0
+tabnew
+edit CommandAndControl.rb
+set splitbelow splitright
+set nosplitbelow
+set nosplitright
+wincmd t
+set winheight=1 winwidth=1
+argglobal
+setlocal noarabic
+setlocal autoindent
+setlocal autoread
+setlocal nobinary
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal nocindent
+setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+setlocal comments=:#
+setlocal commentstring=#\ %s
+setlocal complete=.,w,b,u,t,i
+setlocal completefunc=
+setlocal nocopyindent
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal define=^\\s*#\\s*define
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal noexpandtab
+if &filetype != 'ruby'
+setlocal filetype=ruby
+endif
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+setlocal foldmethod=manual
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=croql
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=0
+setlocal include=^\\s*\\<\\(load\\|w*require\\)\\>
+setlocal includeexpr=substitute(substitute(v:fname,'::','/','g'),'$','.rb','')
+setlocal indentexpr=GetRubyIndent()
+setlocal indentkeys=0{,0},0),0],!^F,o,O,e,=end,=elsif,=when,=ensure,=rescue,==begin,==end
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255
+setlocal keymap=
+setlocal keywordprg=
+setlocal nolinebreak
+setlocal nolisp
+setlocal nolist
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal modeline
+setlocal modifiable
+setlocal nrformats=octal,hex
+set number
+setlocal number
+setlocal numberwidth=4
+setlocal omnifunc=rubycomplete#Complete
+setlocal path=.,/usr/local/lib/ruby/site_ruby/1.8,/usr/local/lib/ruby/site_ruby/1.8/i686-darwin8.6.2,/usr/local/lib/ruby/site_ruby,/usr/local/lib/ruby/1.8,/usr/local/lib/ruby/1.8/i686-darwin8.6.2,,/usr/local/lib/ruby/gems/1.8/gems/RedCloth-3.0.4/lib,/usr/local/lib/ruby/gems/1.8/gems/SqlStatement-1.0.0/lib,/usr/local/lib/ruby/gems/1.8/gems/THERuSH-0.9/lib,/usr/local/lib/ruby/gems/1.8/gems/actionmailer-1.2.1/lib,/usr/local/lib/ruby/gems/1.8/gems/actionmailer-1.2.5/lib,/usr/local/lib/ruby/gems/1.8/gems/actionpack-1.12.1/lib,/usr/local/lib/ruby/gems/1.8/gems/actionpack-1.12.5/lib,/usr/local/lib/ruby/gems/1.8/gems/actionwebservice-1.1.2/lib,/usr/local/lib/ruby/gems/1.8/gems/actionwebservice-1.1.6/lib,/usr/local/lib/ruby/gems/1.8/gems/activerecord-1.14.2/lib,/usr/local/lib/ruby/gems/1.8/gems/activerecord-1.14.4/lib,/usr/local/lib/ruby/gems/1.8/gems/activesupport-1.3.1/lib,/usr/local/lib/ruby/gems/1.8/gems/amrita2-1.9.6/lib,/usr/local/lib/ruby/gems/1.8/gems/builder-2.0.0/lib,/usr/local/lib/ruby/gems/1.8/gems/cheat-1.0.2/lib,/usr
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal shiftwidth=2
+setlocal noshortname
+setlocal nosmartindent
+setlocal softtabstop=2
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal statusline=
+setlocal suffixesadd=.rb
+setlocal swapfile
+setlocal synmaxcol=3000
+if &syntax != 'ruby'
+setlocal syntax=ruby
+endif
+setlocal tabstop=2
+setlocal tags=
+setlocal textwidth=0
+setlocal thesaurus=
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+silent! normal! zE
+let s:l = 3 - ((2 * winheight(0) + 28) / 57)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+3
+normal! 0
+tabnew
+edit ~/Sites/ruby/tdcs_simulator.rb
+set splitbelow splitright
+set nosplitbelow
+set nosplitright
+wincmd t
+set winheight=1 winwidth=1
+argglobal
+setlocal noarabic
+setlocal autoindent
+setlocal autoread
+setlocal nobinary
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal nocindent
+setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+setlocal comments=:#
+setlocal commentstring=#\ %s
+setlocal complete=.,w,b,u,t,i
+setlocal completefunc=
+setlocal nocopyindent
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal define=^\\s*#\\s*define
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal noexpandtab
+if &filetype != 'ruby'
+setlocal filetype=ruby
+endif
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+setlocal foldmethod=manual
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=croql
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=0
+setlocal include=^\\s*\\<\\(load\\|w*require\\)\\>
+setlocal includeexpr=substitute(substitute(v:fname,'::','/','g'),'$','.rb','')
+setlocal indentexpr=GetRubyIndent()
+setlocal indentkeys=0{,0},0),0],!^F,o,O,e,=end,=elsif,=when,=ensure,=rescue,==begin,==end
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255
+setlocal keymap=
+setlocal keywordprg=
+setlocal nolinebreak
+setlocal nolisp
+setlocal nolist
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal modeline
+setlocal modifiable
+setlocal nrformats=octal,hex
+set number
+setlocal number
+setlocal numberwidth=4
+setlocal omnifunc=rubycomplete#Complete
+setlocal path=.,/usr/local/lib/ruby/site_ruby/1.8,/usr/local/lib/ruby/site_ruby/1.8/i686-darwin8.6.2,/usr/local/lib/ruby/site_ruby,/usr/local/lib/ruby/1.8,/usr/local/lib/ruby/1.8/i686-darwin8.6.2,,/usr/local/lib/ruby/gems/1.8/gems/RedCloth-3.0.4/lib,/usr/local/lib/ruby/gems/1.8/gems/SqlStatement-1.0.0/lib,/usr/local/lib/ruby/gems/1.8/gems/THERuSH-0.9/lib,/usr/local/lib/ruby/gems/1.8/gems/actionmailer-1.2.1/lib,/usr/local/lib/ruby/gems/1.8/gems/actionmailer-1.2.5/lib,/usr/local/lib/ruby/gems/1.8/gems/actionpack-1.12.1/lib,/usr/local/lib/ruby/gems/1.8/gems/actionpack-1.12.5/lib,/usr/local/lib/ruby/gems/1.8/gems/actionwebservice-1.1.2/lib,/usr/local/lib/ruby/gems/1.8/gems/actionwebservice-1.1.6/lib,/usr/local/lib/ruby/gems/1.8/gems/activerecord-1.14.2/lib,/usr/local/lib/ruby/gems/1.8/gems/activerecord-1.14.4/lib,/usr/local/lib/ruby/gems/1.8/gems/activesupport-1.3.1/lib,/usr/local/lib/ruby/gems/1.8/gems/amrita2-1.9.6/lib,/usr/local/lib/ruby/gems/1.8/gems/builder-2.0.0/lib,/usr/local/lib/ruby/gems/1.8/gems/cheat-1.0.2/lib,/usr
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal shiftwidth=2
+setlocal noshortname
+setlocal nosmartindent
+setlocal softtabstop=2
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal statusline=
+setlocal suffixesadd=.rb
+setlocal swapfile
+setlocal synmaxcol=3000
+if &syntax != 'ruby'
+setlocal syntax=ruby
+endif
+setlocal tabstop=2
+setlocal tags=
+setlocal textwidth=0
+setlocal thesaurus=
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+silent! normal! zE
+let s:l = 1 - ((0 * winheight(0) + 28) / 57)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+1
+normal! 0
+tabnew
+edit tgate_simulator.rb
+set splitbelow splitright
+set nosplitbelow
+set nosplitright
+wincmd t
+set winheight=1 winwidth=1
+argglobal
+setlocal noarabic
+setlocal autoindent
+setlocal autoread
+setlocal nobinary
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal nocindent
+setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+setlocal comments=:#
+setlocal commentstring=#\ %s
+setlocal complete=.,w,b,u,t,i
+setlocal completefunc=
+setlocal nocopyindent
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal define=^\\s*#\\s*define
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal noexpandtab
+if &filetype != 'ruby'
+setlocal filetype=ruby
+endif
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+setlocal foldmethod=manual
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=croql
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=0
+setlocal include=^\\s*\\<\\(load\\|w*require\\)\\>
+setlocal includeexpr=substitute(substitute(v:fname,'::','/','g'),'$','.rb','')
+setlocal indentexpr=GetRubyIndent()
+setlocal indentkeys=0{,0},0),0],!^F,o,O,e,=end,=elsif,=when,=ensure,=rescue,==begin,==end
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255
+setlocal keymap=
+setlocal keywordprg=
+setlocal nolinebreak
+setlocal nolisp
+setlocal nolist
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal modeline
+setlocal modifiable
+setlocal nrformats=octal,hex
+set number
+setlocal number
+setlocal numberwidth=4
+setlocal omnifunc=rubycomplete#Complete
+setlocal path=.,/usr/local/lib/ruby/site_ruby/1.8,/usr/local/lib/ruby/site_ruby/1.8/i686-darwin8.6.2,/usr/local/lib/ruby/site_ruby,/usr/local/lib/ruby/1.8,/usr/local/lib/ruby/1.8/i686-darwin8.6.2,,/usr/local/lib/ruby/gems/1.8/gems/RedCloth-3.0.4/lib,/usr/local/lib/ruby/gems/1.8/gems/SqlStatement-1.0.0/lib,/usr/local/lib/ruby/gems/1.8/gems/THERuSH-0.9/lib,/usr/local/lib/ruby/gems/1.8/gems/actionmailer-1.2.1/lib,/usr/local/lib/ruby/gems/1.8/gems/actionmailer-1.2.5/lib,/usr/local/lib/ruby/gems/1.8/gems/actionpack-1.12.1/lib,/usr/local/lib/ruby/gems/1.8/gems/actionpack-1.12.5/lib,/usr/local/lib/ruby/gems/1.8/gems/actionwebservice-1.1.2/lib,/usr/local/lib/ruby/gems/1.8/gems/actionwebservice-1.1.6/lib,/usr/local/lib/ruby/gems/1.8/gems/activerecord-1.14.2/lib,/usr/local/lib/ruby/gems/1.8/gems/activerecord-1.14.4/lib,/usr/local/lib/ruby/gems/1.8/gems/activesupport-1.3.1/lib,/usr/local/lib/ruby/gems/1.8/gems/amrita2-1.9.6/lib,/usr/local/lib/ruby/gems/1.8/gems/builder-2.0.0/lib,/usr/local/lib/ruby/gems/1.8/gems/cheat-1.0.2/lib,/usr
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal shiftwidth=2
+setlocal noshortname
+setlocal nosmartindent
+setlocal softtabstop=2
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal statusline=
+setlocal suffixesadd=.rb
+setlocal swapfile
+setlocal synmaxcol=3000
+if &syntax != 'ruby'
+setlocal syntax=ruby
+endif
+setlocal tabstop=2
+setlocal tags=
+setlocal textwidth=0
+setlocal thesaurus=
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+silent! normal! zE
+let s:l = 1 - ((0 * winheight(0) + 28) / 57)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+1
+normal! 0
+tabnew
+edit ivtu_simulator.rb
+set splitbelow splitright
+set nosplitbelow
+set nosplitright
+wincmd t
+set winheight=1 winwidth=1
+argglobal
+setlocal noarabic
+setlocal autoindent
+setlocal autoread
+setlocal nobinary
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal nocindent
+setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+setlocal comments=:#
+setlocal commentstring=#\ %s
+setlocal complete=.,w,b,u,t,i
+setlocal completefunc=
+setlocal nocopyindent
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal define=^\\s*#\\s*define
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal noexpandtab
+if &filetype != 'ruby'
+setlocal filetype=ruby
+endif
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+setlocal foldmethod=manual
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=croql
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=0
+setlocal include=^\\s*\\<\\(load\\|w*require\\)\\>
+setlocal includeexpr=substitute(substitute(v:fname,'::','/','g'),'$','.rb','')
+setlocal indentexpr=GetRubyIndent()
+setlocal indentkeys=0{,0},0),0],!^F,o,O,e,=end,=elsif,=when,=ensure,=rescue,==begin,==end
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255
+setlocal keymap=
+setlocal keywordprg=
+setlocal nolinebreak
+setlocal nolisp
+setlocal nolist
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal modeline
+setlocal modifiable
+setlocal nrformats=octal,hex
+set number
+setlocal number
+setlocal numberwidth=4
+setlocal omnifunc=rubycomplete#Complete
+setlocal path=.,/usr/local/lib/ruby/site_ruby/1.8,/usr/local/lib/ruby/site_ruby/1.8/i686-darwin8.6.2,/usr/local/lib/ruby/site_ruby,/usr/local/lib/ruby/1.8,/usr/local/lib/ruby/1.8/i686-darwin8.6.2,,/usr/local/lib/ruby/gems/1.8/gems/RedCloth-3.0.4/lib,/usr/local/lib/ruby/gems/1.8/gems/SqlStatement-1.0.0/lib,/usr/local/lib/ruby/gems/1.8/gems/THERuSH-0.9/lib,/usr/local/lib/ruby/gems/1.8/gems/actionmailer-1.2.1/lib,/usr/local/lib/ruby/gems/1.8/gems/actionmailer-1.2.5/lib,/usr/local/lib/ruby/gems/1.8/gems/actionpack-1.12.1/lib,/usr/local/lib/ruby/gems/1.8/gems/actionpack-1.12.5/lib,/usr/local/lib/ruby/gems/1.8/gems/actionwebservice-1.1.2/lib,/usr/local/lib/ruby/gems/1.8/gems/actionwebservice-1.1.6/lib,/usr/local/lib/ruby/gems/1.8/gems/activerecord-1.14.2/lib,/usr/local/lib/ruby/gems/1.8/gems/activerecord-1.14.4/lib,/usr/local/lib/ruby/gems/1.8/gems/activesupport-1.3.1/lib,/usr/local/lib/ruby/gems/1.8/gems/amrita2-1.9.6/lib,/usr/local/lib/ruby/gems/1.8/gems/builder-2.0.0/lib,/usr/local/lib/ruby/gems/1.8/gems/cheat-1.0.2/lib,/usr
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal shiftwidth=2
+setlocal noshortname
+setlocal nosmartindent
+setlocal softtabstop=2
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal statusline=
+setlocal suffixesadd=.rb
+setlocal swapfile
+setlocal synmaxcol=3000
+if &syntax != 'ruby'
+setlocal syntax=ruby
+endif
+setlocal tabstop=2
+setlocal tags=
+setlocal textwidth=0
+setlocal thesaurus=
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+silent! normal! zE
+let s:l = 1 - ((0 * winheight(0) + 28) / 57)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+1
+normal! 0
+tabnew
+edit handle_ap.rb
+set splitbelow splitright
+set nosplitbelow
+set nosplitright
+wincmd t
+set winheight=1 winwidth=1
+argglobal
+setlocal noarabic
+setlocal autoindent
+setlocal autoread
+setlocal nobinary
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal nocindent
+setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+setlocal comments=:#
+setlocal commentstring=#\ %s
+setlocal complete=.,w,b,u,t,i
+setlocal completefunc=
+setlocal nocopyindent
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal define=^\\s*#\\s*define
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal noexpandtab
+if &filetype != 'ruby'
+setlocal filetype=ruby
+endif
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+setlocal foldmethod=manual
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=croql
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=0
+setlocal include=^\\s*\\<\\(load\\|w*require\\)\\>
+setlocal includeexpr=substitute(substitute(v:fname,'::','/','g'),'$','.rb','')
+setlocal indentexpr=GetRubyIndent()
+setlocal indentkeys=0{,0},0),0],!^F,o,O,e,=end,=elsif,=when,=ensure,=rescue,==begin,==end
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255
+setlocal keymap=
+setlocal keywordprg=
+setlocal nolinebreak
+setlocal nolisp
+setlocal nolist
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal modeline
+setlocal modifiable
+setlocal nrformats=octal,hex
+set number
+setlocal number
+setlocal numberwidth=4
+setlocal omnifunc=rubycomplete#Complete
+setlocal path=.,/usr/local/lib/ruby/site_ruby/1.8,/usr/local/lib/ruby/site_ruby/1.8/i686-darwin8.6.2,/usr/local/lib/ruby/site_ruby,/usr/local/lib/ruby/1.8,/usr/local/lib/ruby/1.8/i686-darwin8.6.2,,/usr/local/lib/ruby/gems/1.8/gems/RedCloth-3.0.4/lib,/usr/local/lib/ruby/gems/1.8/gems/SqlStatement-1.0.0/lib,/usr/local/lib/ruby/gems/1.8/gems/THERuSH-0.9/lib,/usr/local/lib/ruby/gems/1.8/gems/actionmailer-1.2.1/lib,/usr/local/lib/ruby/gems/1.8/gems/actionmailer-1.2.5/lib,/usr/local/lib/ruby/gems/1.8/gems/actionpack-1.12.1/lib,/usr/local/lib/ruby/gems/1.8/gems/actionpack-1.12.5/lib,/usr/local/lib/ruby/gems/1.8/gems/actionwebservice-1.1.2/lib,/usr/local/lib/ruby/gems/1.8/gems/actionwebservice-1.1.6/lib,/usr/local/lib/ruby/gems/1.8/gems/activerecord-1.14.2/lib,/usr/local/lib/ruby/gems/1.8/gems/activerecord-1.14.4/lib,/usr/local/lib/ruby/gems/1.8/gems/activesupport-1.3.1/lib,/usr/local/lib/ruby/gems/1.8/gems/amrita2-1.9.6/lib,/usr/local/lib/ruby/gems/1.8/gems/builder-2.0.0/lib,/usr/local/lib/ruby/gems/1.8/gems/cheat-1.0.2/lib,/usr
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal shiftwidth=2
+setlocal noshortname
+setlocal nosmartindent
+setlocal softtabstop=2
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal statusline=
+setlocal suffixesadd=.rb
+setlocal swapfile
+setlocal synmaxcol=3000
+if &syntax != 'ruby'
+setlocal syntax=ruby
+endif
+setlocal tabstop=2
+setlocal tags=
+setlocal textwidth=0
+setlocal thesaurus=
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+silent! normal! zE
+let s:l = 1 - ((0 * winheight(0) + 28) / 57)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+1
+normal! 0
+tabnext 3
+if exists('s:wipebuf')
+  silent exe 'bwipe ' . s:wipebuf
+endif
+unlet! s:wipebuf
+set winheight=1 winwidth=20 shortmess=filnxtToO
+let s:sx = expand("<sfile>:p:r")."x.vim"
+if file_readable(s:sx)
+  exe "source " . s:sx
+endif
+let &so = s:so_save | let &siso = s:siso_save
+doautoall SessionLoadPost
+unlet SessionLoad
+" vim: set ft=vim :

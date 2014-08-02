@@ -1,0 +1,13 @@
+--- 
+- :last_seen_time: "17:19"
+  :code: V002
+  :license: KL9-3041
+  :current_node: ---
+  :previous_node: ALP
+  :next_node: finished
+- :last_seen_time: "17:17"
+  :code: V001
+  :license: KL8-5692
+  :current_node: en route
+  :previous_node: KYM
+  :next_node: ALP

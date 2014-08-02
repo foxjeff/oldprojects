@@ -1,0 +1,30 @@
+---
+- !arl.amrita.edu,2006/route
+  name: KYM to ALP
+  nodes:
+            -
+              seq:  1
+              name: TVM
+              tt:   0
+              code: T001
+            -
+              seq:  2
+              name: KLM
+              tt:   50
+              code: T002
+            -
+              seq:  3
+              name: KYM
+              tt:   50
+              code: T003
+            -
+              seq:  4
+              name: ALP
+              tt:   50
+              code: T004
+  vehicles:
+            -
+              code: V010
+              lic:  KL8-5692
+              tod:  25
+

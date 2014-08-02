@@ -1,0 +1,354 @@
+-- MySQL dump 10.10
+--
+-- Host: localhost    Database: simulator_development
+-- ------------------------------------------------------
+-- Server version	5.0.22-standard
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `current_trips`
+--
+
+DROP TABLE IF EXISTS `current_trips`;
+CREATE TABLE `current_trips` (
+  `id` int(11) NOT NULL auto_increment,
+  `seat_availability` int(11) default NULL,
+  `timestamp` datetime default NULL,
+  `description` varchar(255) default NULL,
+  `current_node_id` int(11) default NULL,
+  `trip_id` int(11) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `current_trips`
+--
+
+
+/*!40000 ALTER TABLE `current_trips` DISABLE KEYS */;
+LOCK TABLES `current_trips` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `current_trips` ENABLE KEYS */;
+
+--
+-- Table structure for table `fcus`
+--
+
+DROP TABLE IF EXISTS `fcus`;
+CREATE TABLE `fcus` (
+  `id` int(11) NOT NULL auto_increment,
+  `fcu_code` varchar(255) default NULL,
+  `fcu_type` varchar(255) default NULL,
+  `last_message_timestamp` datetime default NULL,
+  `reg_password` varchar(255) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `fcus`
+--
+
+
+/*!40000 ALTER TABLE `fcus` DISABLE KEYS */;
+LOCK TABLES `fcus` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `fcus` ENABLE KEYS */;
+
+--
+-- Table structure for table `ivus`
+--
+
+DROP TABLE IF EXISTS `ivus`;
+CREATE TABLE `ivus` (
+  `id` int(11) NOT NULL auto_increment,
+  `ivu_code` varchar(255) default NULL,
+  `ivu_type` varchar(255) default NULL,
+  `vehicle_id` int(11) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ivus`
+--
+
+
+/*!40000 ALTER TABLE `ivus` DISABLE KEYS */;
+LOCK TABLES `ivus` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `ivus` ENABLE KEYS */;
+
+--
+-- Table structure for table `message_types`
+--
+
+DROP TABLE IF EXISTS `message_types`;
+CREATE TABLE `message_types` (
+  `id` int(11) NOT NULL auto_increment,
+  `fu_type` varchar(255) default NULL,
+  `main_type` varchar(255) default NULL,
+  `sub_type` varchar(255) default NULL,
+  `description` varchar(255) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `message_types`
+--
+
+
+/*!40000 ALTER TABLE `message_types` DISABLE KEYS */;
+LOCK TABLES `message_types` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `message_types` ENABLE KEYS */;
+
+--
+-- Table structure for table `nodes`
+--
+
+DROP TABLE IF EXISTS `nodes`;
+CREATE TABLE `nodes` (
+  `id` int(11) NOT NULL auto_increment,
+  `node_code` varchar(255) default NULL,
+  `description` varchar(255) default NULL,
+  `short_name` varchar(255) default NULL,
+  `fcu_id` int(11) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `nodes`
+--
+
+
+/*!40000 ALTER TABLE `nodes` DISABLE KEYS */;
+LOCK TABLES `nodes` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `nodes` ENABLE KEYS */;
+
+--
+-- Table structure for table `route_edges`
+--
+
+DROP TABLE IF EXISTS `route_edges`;
+CREATE TABLE `route_edges` (
+  `id` int(11) NOT NULL auto_increment,
+  `edge_order` int(11) default NULL,
+  `route_id` int(11) default NULL,
+  `start_node_id` int(11) default NULL,
+  `end_node_id` int(11) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `route_edges`
+--
+
+
+/*!40000 ALTER TABLE `route_edges` DISABLE KEYS */;
+LOCK TABLES `route_edges` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `route_edges` ENABLE KEYS */;
+
+--
+-- Table structure for table `routes`
+--
+
+DROP TABLE IF EXISTS `routes`;
+CREATE TABLE `routes` (
+  `id` int(11) NOT NULL auto_increment,
+  `route_code` varchar(255) default NULL,
+  `description` varchar(255) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `routes`
+--
+
+
+/*!40000 ALTER TABLE `routes` DISABLE KEYS */;
+LOCK TABLES `routes` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `routes` ENABLE KEYS */;
+
+--
+-- Table structure for table `schema_info`
+--
+
+DROP TABLE IF EXISTS `schema_info`;
+CREATE TABLE `schema_info` (
+  `version` int(11) default NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `schema_info`
+--
+
+
+/*!40000 ALTER TABLE `schema_info` DISABLE KEYS */;
+LOCK TABLES `schema_info` WRITE;
+INSERT INTO `schema_info` VALUES (11);
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `schema_info` ENABLE KEYS */;
+
+--
+-- Table structure for table `tdc_servers`
+--
+
+DROP TABLE IF EXISTS `tdc_servers`;
+CREATE TABLE `tdc_servers` (
+  `id` int(11) NOT NULL auto_increment,
+  `tdcs_code` varchar(255) default NULL,
+  `descriptive_name` varchar(255) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tdc_servers`
+--
+
+
+/*!40000 ALTER TABLE `tdc_servers` DISABLE KEYS */;
+LOCK TABLES `tdc_servers` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `tdc_servers` ENABLE KEYS */;
+
+--
+-- Table structure for table `telematic_messages`
+--
+
+DROP TABLE IF EXISTS `telematic_messages`;
+CREATE TABLE `telematic_messages` (
+  `id` int(11) NOT NULL auto_increment,
+  `message_timestamp` datetime default NULL,
+  `message_attributes` text,
+  `received_timestamp` datetime default NULL,
+  `fcu_id` int(11) default NULL,
+  `ivu_id` int(11) default NULL,
+  `message_id` int(11) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `telematic_messages`
+--
+
+
+/*!40000 ALTER TABLE `telematic_messages` DISABLE KEYS */;
+LOCK TABLES `telematic_messages` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `telematic_messages` ENABLE KEYS */;
+
+--
+-- Table structure for table `trip_node_time_estimates`
+--
+
+DROP TABLE IF EXISTS `trip_node_time_estimates`;
+CREATE TABLE `trip_node_time_estimates` (
+  `id` int(11) NOT NULL auto_increment,
+  `estimate_ttt` time default NULL,
+  `edges_id` int(11) default NULL,
+  `trip_id` int(11) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `trip_node_time_estimates`
+--
+
+
+/*!40000 ALTER TABLE `trip_node_time_estimates` DISABLE KEYS */;
+LOCK TABLES `trip_node_time_estimates` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `trip_node_time_estimates` ENABLE KEYS */;
+
+--
+-- Table structure for table `trip_traces`
+--
+
+DROP TABLE IF EXISTS `trip_traces`;
+CREATE TABLE `trip_traces` (
+  `id` int(11) NOT NULL auto_increment,
+  `seat_availability` int(11) default NULL,
+  `timestamp` datetime default NULL,
+  `node_id` int(11) default NULL,
+  `trip_id` int(11) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `trip_traces`
+--
+
+
+/*!40000 ALTER TABLE `trip_traces` DISABLE KEYS */;
+LOCK TABLES `trip_traces` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `trip_traces` ENABLE KEYS */;
+
+--
+-- Table structure for table `trips`
+--
+
+DROP TABLE IF EXISTS `trips`;
+CREATE TABLE `trips` (
+  `id` int(11) NOT NULL auto_increment,
+  `scheduled_time` datetime default NULL,
+  `route_id` int(11) default NULL,
+  `vehicle_id` int(11) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `trips`
+--
+
+
+/*!40000 ALTER TABLE `trips` DISABLE KEYS */;
+LOCK TABLES `trips` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `trips` ENABLE KEYS */;
+
+--
+-- Table structure for table `vehicles`
+--
+
+DROP TABLE IF EXISTS `vehicles`;
+CREATE TABLE `vehicles` (
+  `id` int(11) NOT NULL auto_increment,
+  `license_number` varchar(255) default NULL,
+  `seat_capacity` int(11) default NULL,
+  `vehicle_type` varchar(255) default NULL,
+  `description` varchar(255) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `vehicles`
+--
+
+
+/*!40000 ALTER TABLE `vehicles` DISABLE KEYS */;
+LOCK TABLES `vehicles` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `vehicles` ENABLE KEYS */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
